@@ -1,0 +1,42 @@
+import {useTheme} from '@react-navigation/native';
+import {FC, useEffect} from 'react';
+import {Animated, Easing, View} from 'react-native';
+
+const Loader: FC = () => {
+  const { colors } = useTheme();
+  const spinValue = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+  return (
+    <View style={{ width: 24, height: 24 }}>
+      <Animated.View
+        style={{
+          width: '100%',
+          height: '100%',
+          borderWidth: 3,
+          borderRadius: 12,
+          borderColor: colors.background,
+          borderBottomColor: colors.primary,
+          transform: [{ rotate: spin }],
+        }}
+      />
+    </View>
+  );
+};
+
+export default Loader;
