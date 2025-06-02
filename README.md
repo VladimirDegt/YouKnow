@@ -1,52 +1,91 @@
-# Welcome to your Expo app 👋
+# YouKnow
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Мобильное приложение для получения интересных фактов, цитат и другой познавательной информации.
 
-## Get started
+## Описание
 
-1. Install dependencies
+YouKnow - это React Native приложение, которое предоставляет пользователям доступ к различным категориям контента:
+- Забавные факты
+- Научные факты
+- Цитата дня
+- События этого дня в истории
+- Вопрос дня
+- Здоровье
+- Мотивация
 
-   ```bash
-   npm install
-   ```
+## Технологии
 
-2. Start the app
+- React Native
+- TypeScript
+- Expo
+- OpenAI API (для генерации контента)
 
-   ```bash
-   npx expo start
-   ```
+## Установка
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+1. Клонируйте репозиторий:
 ```bash
-npm run reset-project
+git clone [url-репозитория]
+cd YouKnow
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Установите зависимости:
+```bash
+npm install
+# или
+yarn install
+```
 
-## Learn more
+3. Создайте файл `.env` в корневой директории и добавьте необходимые переменные окружения:
+```env
+EXPO_PUBLIC_OPENAI=ваш_ключ_openai
+EXPO_PUBLIC_API_KEY_OPENAI=ваш_base_url
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Запуск проекта
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Для запуска в режиме разработки:
 
-## Join the community
+```bash
+npm start
+# или
+yarn start
+```
 
-Join our community of developers creating universal apps.
+## Структура проекта
 
+```
+YouKnow/
+├── app/
+│   └── (tabs)/
+│       └── index.tsx      # Главный экран приложения
+├── src/
+│   ├── components/        # React компоненты
+│   ├── constants/         # Константы (цвета, размеры и т.д.)
+│   └── db/               # Промпты и данные
+├── assets/               # Статические ресурсы
+└── package.json
+```
 
+## Основные функции
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Просмотр различных категорий контента
+- Генерация уникального контента с помощью AI
+- Интерактивный пользовательский интерфейс
+- Загрузка и отображение контента в реальном времени
+
+## Цветовая схема
+
+Приложение использует следующую цветовую схему:
+- Primary: #2b7afb
+- Background: #F4F7FA
+- White: #FFFFFF
+- Text: #272727
+- Border: #2b7afb
+
+## Лицензия
+
+MIT
+
+## Автор
+
+[Ваше имя] 

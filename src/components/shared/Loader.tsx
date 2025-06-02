@@ -10,7 +10,7 @@ const Loader: FC = () => {
     Animated.loop(
       Animated.timing(spinValue, {
         toValue: 1,
-        duration: 1000,
+        duration: 250,
         easing: Easing.linear,
         useNativeDriver: true,
       })
