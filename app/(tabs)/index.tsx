@@ -1,9 +1,11 @@
-import {useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import {COLORS} from '@/src/constants/colors';
-import {fanFactPromt, scienceFactPromt} from '@/src/db/promts';
-import {contentService} from '@/src/services/api';
+import { COLORS } from '@/src/constants/colors';
+import { fanFactPromt, scienceFactPromt } from '@/src/db/promts';
+import { contentService } from '@/src/services/api';
+import { useContentStore } from '@/src/store/contentStore';
 
 import Loader from '@/src/components/shared/Loader';
 
@@ -20,7 +22,7 @@ const categories = [
 const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [loadingButtonId, setLoadingButtonId] = useState<number | null>(null);
-  const [text, setText] = useState('')
+  const setContent = useContentStore((state) => state.setContent);
   
   const handleButtonPress = async(prompt: string, id: number, route: string) => {
     if (!prompt) return;
@@ -30,10 +32,11 @@ const HomeScreen = () => {
     
     try {
       const data = await contentService.getContent(prompt, route);
-      setText(data.message);
+      setContent(data.message);
+      router.push('/content');
     } catch (error) {
       console.error('Error:', error);
-      setText('Something went wrong');
+      setContent('Something went wrong');
     } finally {
       setLoading(false);
       setLoadingButtonId(null);
@@ -59,7 +62,6 @@ const HomeScreen = () => {
           </TouchableOpacity>
         )}
       />
-      {text ? <Text>{text}</Text> : <Text>Завантаження...</Text>}
     </View>
   );
 };
