@@ -7,9 +7,9 @@ export interface ContentResponse {
 }
 
 export const contentService = {
-  async getContent(prompt: string, route: string): Promise<ContentResponse> {
+  async getContent(route: string): Promise<ContentResponse> {
     try {
-      const response = await axios.post<ContentResponse>(`${API_URL}/content/${route}`, { prompt });
+      const response = await axios.post<ContentResponse>(`${API_URL}/content/${route}`, { lang: "ru" });
       return response.data;
     } catch (error) {
       console.error('Error fetching content:', error);

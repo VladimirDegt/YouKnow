@@ -3,20 +3,17 @@ import { useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { COLORS } from '@/src/constants/colors';
-import { fanFactPromt, scienceFactPromt } from '@/src/db/promts';
 import { contentService } from '@/src/services/api';
 import { useContentStore } from '@/src/store/contentStore';
 
 import Loader from '@/src/components/shared/Loader';
 
 const categories = [
-  { id: 1, name: "Fun Fact", promt: fanFactPromt, route: 'fanFact'},
-  { id: 2, name: "Science Fact", promt: scienceFactPromt, route: 'scienceFact' },
-  { id: 3, name: "Quote of the Day", promt: '', route: '' },
-  { id: 4, name: "This Day in History", promt: '', route: '' },
-  { id: 5, name: "Question of the Day", promt: '', route: '' },
-  { id: 6, name: "Health", promt: '', route: '' },
-  { id: 7, name: "Motivation", promt: '', route: '' },
+  { id: 1, name: "Fun Fact", route: 'fanFact'},
+  { id: 2, name: "Science Fact", route: 'scienceFact' },
+  { id: 3, name: "Quote of the Day", route: 'dayQuote' },
+  { id: 4, name: "This Day in History", route: 'dayEvent' },
+  { id: 5, name: "Question of the Day", route: 'dayQuestion' },
 ];
 
 const HomeScreen = () => {
@@ -24,14 +21,12 @@ const HomeScreen = () => {
   const [loadingButtonId, setLoadingButtonId] = useState<number | null>(null);
   const setContent = useContentStore((state) => state.setContent);
   
-  const handleButtonPress = async(prompt: string, id: number, route: string) => {
-    if (!prompt) return;
-    
+  const handleButtonPress = async( id: number, route: string) => {
     setLoading(true);
     setLoadingButtonId(id);
     
     try {
-      const data = await contentService.getContent(prompt, route);
+      const data = await contentService.getContent(route);
       setContent(data.message);
       router.push('/content');
     } catch (error) {
