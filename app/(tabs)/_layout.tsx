@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
+import {Ionicons} from '@expo/vector-icons';
+import {Tabs} from "expo-router";
+import {useColorScheme} from "react-native";
 
 export default function BottomTabBar() {
   const colorScheme = useColorScheme();
@@ -27,15 +27,22 @@ export default function BottomTabBar() {
         tabBarInactiveTintColor: '#888',
       }}
     >
-      <Tabs.Screen 
-        name='index' 
+      <Tabs.Screen
+        name='index'
         options={{
           title: 'Home',
           tabBarIcon: ({color}) => <Ionicons name='home' size={24} color={color}/>
         }}
       />
-      <Tabs.Screen 
-        name='content' 
+      <Tabs.Screen
+        name='profile'
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({color}) => <Ionicons name='person' size={24} color={color}/>
+        }}
+      />
+      <Tabs.Screen
+        name='content'
         options={{
           title: 'Content',
           tabBarIcon: ({color}) => <Ionicons name='book' size={24} color={color}/>

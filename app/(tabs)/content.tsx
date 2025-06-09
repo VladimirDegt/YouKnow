@@ -19,13 +19,13 @@ export default ContentScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
-    paddingTop: 100,
-    padding: 16,
+    backgroundColor: COLORS.background,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
   },
   content: {
     fontSize: 16,
-    color: COLORS.text,
+    color: COLORS.text_black,
     lineHeight: 24,
   }
 })

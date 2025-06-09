@@ -1,10 +1,10 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {router} from 'expo-router';
+import {useState} from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 
-import { COLORS } from '@/src/constants/colors';
-import { contentService } from '@/src/services/api';
-import { useContentStore } from '@/src/store/contentStore';
+import {COLORS} from '@/src/constants/colors';
+import {contentService} from '@/src/services/api';
+import {useContentStore} from '@/src/store/contentStore';
 
 import Loader from '@/src/components/shared/Loader';
 
@@ -20,6 +20,9 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [loadingButtonId, setLoadingButtonId] = useState<number | null>(null);
   const setContent = useContentStore((state) => state.setContent);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
+  const numColumns = isTablet ? 3 : 2;
   
   const handleButtonPress = async( id: number, route: string) => {
     setLoading(true);
@@ -44,17 +47,22 @@ const HomeScreen = () => {
         contentContainerStyle={styles.blockBtn}
         data={categories}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={numColumns}
+        columnWrapperStyle={styles.row}
+        ListHeaderComponent={<Text style={styles.headerText}>Choose a category</Text>}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => handleButtonPress(item.promt, item.id, item.route)}
-            disabled={loading}
-          >
-            <View style={styles.buttonContent}>
-              {loadingButtonId === item.id && <Loader />}
-              <Text style={styles.textBtn}>{item.name}</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.gridItem}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => handleButtonPress(item.id, item.route)}
+              disabled={loading}
+            >
+              <View style={styles.buttonContent}>
+                {loadingButtonId === item.id && <Loader />}
+                <Text style={styles.textBtn}>{item.name}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         )}
       />
     </View>
@@ -66,36 +74,52 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.background,
   },
   blockBtn: {
     flexGrow: 1,
-    alignItems: "stretch",
-    marginTop: 64,
-    paddingVertical: 16,
+    marginVertical: 24,
     paddingHorizontal: 16,
-    backgroundColor: COLORS.background,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+  },
+  row: {
+    justifyContent: 'space-between',
+  },
+  gridItem: {
+    width: '48%',
+    paddingVertical: 8,
   },
   btn: {
-    width: "100%",
-    paddingVertical: 16,
-    backgroundColor: COLORS.white,
+    aspectRatio: 1,
+    backgroundColor: COLORS.btn_background,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: COLORS.border
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    padding: 16,
+  },
+  headerText: {
+    fontSize: 24,
+    textAlign: 'left',
+    color: COLORS.text_black,
+    fontWeight: 'bold',
+    marginBottom: 12,
   },
   textBtn: {
-    fontSize: 18,
-    color: COLORS.text,
+    fontSize: 20,
+    color: COLORS.text_white,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
