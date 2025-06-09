@@ -12,7 +12,7 @@ const ArrowBack = () => {
       onPress={handlePress}
       accessibilityLabel="Back"
     >
-      <Ionicons name="arrow-back" size={16} color={COLORS.text} />
+      <Ionicons name="arrow-back" size={16} color={COLORS.text_black} />
       <Text style={styles.text}>Back</Text>
     </TouchableOpacity>
   );
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: COLORS.text,
+    color: COLORS.text_black,
   }
 });
 
