@@ -2,9 +2,11 @@ import {COLORS} from '@/src/constants/colors';
 import {Ionicons} from '@expo/vector-icons';
 import {router} from 'expo-router';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {useTranslation} from "react-i18next";
 
 const ArrowBack = () => {
   const handlePress = () => router.push('/(tabs)');
+  const { t } = useTranslation();
 
   return (
     <TouchableOpacity
@@ -13,7 +15,7 @@ const ArrowBack = () => {
       accessibilityLabel="Back"
     >
       <Ionicons name="arrow-back" size={16} color={COLORS.text_black} />
-      <Text style={styles.text}>Back</Text>
+      <Text style={styles.text}>{t('btnBack')}</Text>
     </TouchableOpacity>
   );
 };
