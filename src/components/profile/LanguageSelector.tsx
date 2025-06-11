@@ -20,7 +20,7 @@ const LANGUAGES = [
 const LANGUAGE_STORAGE_KEY = '@app_language';
 
 const LanguageSelector = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     const loadSavedLanguage = async () => {
@@ -56,10 +56,10 @@ const LanguageSelector = () => {
             i18n.language === lang.code && styles.activeFlagButton,
           ]}
           onPress={() => handleChangeLang(lang.code)}
-          accessibilityLabel={`Select ${lang.name} language`}
+          accessibilityLabel={t('profile.language.select')}
           accessibilityRole="button">
           <lang.flag width={64} height={64} />
-          <Text style={styles.flagText}>{lang.name}</Text>
+          <Text style={styles.flagText}>{t(`profile.language.names.${lang.code}`)}</Text>
         </TouchableOpacity>
       ))}
     </View>

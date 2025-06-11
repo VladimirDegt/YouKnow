@@ -1,3 +1,34 @@
 {
-  "btnBack": "Atrás"
+  "common": {
+    "btnBack": "Atrás",
+    "errorMessage": "Algo salió mal"
+  },
+  "home": {
+    "chooseCategory": "Elige una categoría",
+    "categories": {
+      "funFact": "Dato curioso",
+      "scienceFact": "Dato científico",
+      "quoteOfDay": "Cita del día",
+      "thisDayHistory": "Este día en la historia",
+      "questionOfDay": "Pregunta del día"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "language": "Idioma",
+      "support": "Soporte"
+    },
+    "support": {
+      "info": "Información de soporte"
+    },
+    "language": {
+      "select": "Seleccionar idioma",
+      "names": {
+        "en": "Inglés",
+        "ua": "Ucraniano",
+        "sp": "Español",
+        "ru": "Ruso"
+      }
+    }
+  }
 }

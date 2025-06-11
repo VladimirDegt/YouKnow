@@ -1,5 +1,6 @@
 import { COLORS } from '@/src/constants/colors';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type TabType = 'language' | 'support';
@@ -10,20 +11,22 @@ interface TabSelectorProps {
 }
 
 const TabSelector = ({activeTab, onTabPress}: TabSelectorProps) => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.tabsContainer}>
       <TouchableOpacity
         style={[styles.tab, activeTab === 'language' && styles.activeTab]}
         onPress={() => onTabPress('language')}>
         <Text style={[styles.tabText, activeTab === 'language' && styles.activeTabText]}>
-          Language
+          {t('profile.tabs.language')}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tab, activeTab === 'support' && styles.activeTab]}
         onPress={() => onTabPress('support')}>
         <Text style={[styles.tabText, activeTab === 'support' && styles.activeTabText]}>
-          Support
+          {t('profile.tabs.support')}
         </Text>
       </TouchableOpacity>
     </View>

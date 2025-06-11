@@ -1,11 +1,14 @@
 import { COLORS } from '@/src/constants/colors';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 const SupportTab = () => {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.content}>Информация о поддержке</Text>
+      <Text style={styles.content}>{t('profile.support.info')}</Text>
     </View>
   );
 };

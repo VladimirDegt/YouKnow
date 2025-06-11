@@ -1,19 +1,20 @@
-import {router} from 'expo-router';
-import {useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
-import {COLORS} from '@/src/constants/colors';
-import {contentService} from '@/src/services/api';
-import {useContentStore} from '@/src/store/contentStore';
+import { COLORS } from '@/src/constants/colors';
+import { contentService } from '@/src/services/api';
+import { useContentStore } from '@/src/store/contentStore';
 
 import Loader from '@/src/components/shared/Loader';
 
 const categories = [
-  { id: 1, name: "Fun Fact", route: 'fanFact'},
-  { id: 2, name: "Science Fact", route: 'scienceFact' },
-  { id: 3, name: "Quote of the Day", route: 'dayQuote' },
-  { id: 4, name: "This Day in History", route: 'dayEvent' },
-  { id: 5, name: "Question of the Day", route: 'dayQuestion' },
+  { id: 1, name: "funFact", route: 'fanFact'},
+  { id: 2, name: "scienceFact", route: 'scienceFact' },
+  { id: 3, name: "quoteOfDay", route: 'dayQuote' },
+  { id: 4, name: "thisDayHistory", route: 'dayEvent' },
+  { id: 5, name: "questionOfDay", route: 'dayQuestion' },
 ];
 
 const HomeScreen = () => {
@@ -23,6 +24,7 @@ const HomeScreen = () => {
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
   const numColumns = isTablet ? 3 : 2;
+  const { t } = useTranslation();
   
   const handleButtonPress = async( id: number, route: string) => {
     setLoading(true);
@@ -34,7 +36,7 @@ const HomeScreen = () => {
       router.push('/content');
     } catch (error) {
       console.error('Error:', error);
-      setContent('Something went wrong');
+      setContent(t('common.errorMessage'));
     } finally {
       setLoading(false);
       setLoadingButtonId(null);
@@ -49,7 +51,7 @@ const HomeScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         numColumns={numColumns}
         columnWrapperStyle={styles.row}
-        ListHeaderComponent={<Text style={styles.headerText}>Choose a category</Text>}
+        ListHeaderComponent={<Text style={styles.headerText}>{t('home.chooseCategory')}</Text>}
         renderItem={({ item }) => (
           <View style={styles.gridItem}>
             <TouchableOpacity
@@ -59,7 +61,7 @@ const HomeScreen = () => {
             >
               <View style={styles.buttonContent}>
                 {loadingButtonId === item.id && <Loader />}
-                <Text style={styles.textBtn}>{item.name}</Text>
+                <Text style={styles.textBtn}>{t(`home.categories.${item.name}`)}</Text>
               </View>
             </TouchableOpacity>
           </View>

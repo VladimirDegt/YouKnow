@@ -3,8 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import en from '../locales/en.json';
 import ru from '../locales/ru.json';
-import ua from '../locales/ua.json';
 import sp from '../locales/sp.json';
+import ua from '../locales/ua.json';
 
 const languagesResources = {
     en: {translation: en},
@@ -17,8 +17,8 @@ i18next
   .use(initReactI18next)
   .init({
     compatibilityJSON: 'v3',
-    lng: 'en',
-    fallbackLng: 'en',
+    lng: 'ru',
+    fallbackLng: 'ru',
     resources: languagesResources,
     interpolation: {
       escapeValue: false,

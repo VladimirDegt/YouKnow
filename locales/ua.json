@@ -1,3 +1,34 @@
 {
-  "btnBack": "Повернутися"
+  "common": {
+    "btnBack": "Повернутися",
+    "errorMessage": "Щось пішло не так"
+  },
+  "home": {
+    "chooseCategory": "Виберіть категорію",
+    "categories": {
+      "funFact": "Цікавий факт",
+      "scienceFact": "Науковий факт",
+      "quoteOfDay": "Цитата дня",
+      "thisDayHistory": "Цей день в історії",
+      "questionOfDay": "Питання дня"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "language": "Мова",
+      "support": "Підтримка"
+    },
+    "support": {
+      "info": "Інформація про підтримку"
+    },
+    "language": {
+      "select": "Вибрати мову",
+      "names": {
+        "en": "Англійська",
+        "ua": "Українська",
+        "sp": "Іспанська",
+        "ru": "Російська"
+      }
+    }
+  }
 }

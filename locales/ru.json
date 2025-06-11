@@ -1,3 +1,34 @@
 {
-  "btnBack": "Назад"
+  "common": {
+    "btnBack": "Назад",
+    "errorMessage": "Что-то пошло не так"
+  },
+  "home": {
+    "chooseCategory": "Выберите категорию",
+    "categories": {
+      "funFact": "Забавный факт",
+      "scienceFact": "Научный факт",
+      "quoteOfDay": "Цитата дня",
+      "thisDayHistory": "Этот день в истории",
+      "questionOfDay": "Вопрос дня"
+    }
+  },
+  "profile": {
+    "tabs": {
+      "language": "Язык",
+      "support": "Поддержка"
+    },
+    "support": {
+      "info": "Информация о поддержке"
+    },
+    "language": {
+      "select": "Выбрать язык",
+      "names": {
+        "en": "Английский",
+        "ua": "Украинский",
+        "sp": "Испанский",
+        "ru": "Русский"
+      }
+    }
+  }
 }

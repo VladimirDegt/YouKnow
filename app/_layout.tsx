@@ -1,3 +1,4 @@
+import { useLanguageInit } from '@/src/hooks/useLanguageInit';
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from 'react';
@@ -8,6 +9,7 @@ import Header from '../src/components/shared/Header';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  useLanguageInit();
 
   return (
     <SafeAreaProvider>
