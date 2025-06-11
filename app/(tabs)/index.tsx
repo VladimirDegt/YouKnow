@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
+import SwipeableScreen from '@/app/components/SwipeableScreen';
 import { COLORS } from '@/src/constants/colors';
 import { contentService } from '@/src/services/api';
 import { useContentStore } from '@/src/store/contentStore';
@@ -42,32 +43,42 @@ const HomeScreen = () => {
       setLoadingButtonId(null);
     }
   }
+
+  const handleSwipeLeft = () => {
+    router.push('/profile');
+  };
+
+  const handleSwipeRight = () => {
+    router.push('/content');
+  };
   
   return (
-    <View style={styles.container}>
-      <FlatList
-        contentContainerStyle={styles.blockBtn}
-        data={categories}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={numColumns}
-        columnWrapperStyle={styles.row}
-        ListHeaderComponent={<Text style={styles.headerText}>{t('home.chooseCategory')}</Text>}
-        renderItem={({ item }) => (
-          <View style={styles.gridItem}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => handleButtonPress(item.id, item.route)}
-              disabled={loading}
-            >
-              <View style={styles.buttonContent}>
-                {loadingButtonId === item.id && <Loader />}
-                <Text style={styles.textBtn}>{t(`home.categories.${item.name}`)}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-    </View>
+    <SwipeableScreen onSwipeLeft={handleSwipeLeft} onSwipeRight={handleSwipeRight}>
+      <View style={styles.container}>
+        <FlatList
+          contentContainerStyle={styles.blockBtn}
+          data={categories}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={numColumns}
+          columnWrapperStyle={styles.row}
+          ListHeaderComponent={<Text style={styles.headerText}>{t('home.chooseCategory')}</Text>}
+          renderItem={({ item }) => (
+            <View style={styles.gridItem}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => handleButtonPress(item.id, item.route)}
+                disabled={loading}
+              >
+                <View style={styles.buttonContent}>
+                  {loadingButtonId === item.id && <Loader />}
+                  <Text style={styles.textBtn}>{t(`home.categories.${item.name}`)}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      </View>
+    </SwipeableScreen>
   );
 };
 
