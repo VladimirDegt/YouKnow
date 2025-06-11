@@ -24,14 +24,14 @@ const HomeScreen = () => {
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
   const numColumns = isTablet ? 3 : 2;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   const handleButtonPress = async( id: number, route: string) => {
     setLoading(true);
     setLoadingButtonId(id);
     
     try {
-      const data = await contentService.getContent(route);
+      const data = await contentService.getContent(route, i18n.language);
       setContent(data.message);
       router.push('/content');
     } catch (error) {
