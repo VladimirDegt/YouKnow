@@ -1,7 +1,19 @@
 {
   "common": {
     "btnBack": "Back",
-    "errorMessage": "Something went wrong"
+    "errorMessage": "Something went wrong",
+    "errorTitle": "Error",
+    "ok": "OK",
+    "errors": {
+      "contentNotFound": "Content not found",
+      "serverError": "Server error. Please try again later",
+      "serverErrorWithStatus": "Server error: {{status}}",
+      "noResponse": "No response from server. Please check your internet connection",
+      "requestError": "Error sending request",
+      "unknownError": "An unknown error occurred",
+      "invalidData": "Invalid data",
+      "tooManyRequests": "Too many requests. Please wait a moment"
+    }
   },
   "home": {
     "chooseCategory": "Choose a category",
@@ -18,9 +30,6 @@
       "language": "Language",
       "support": "Support"
     },
-    "support": {
-      "info": "Support Information"
-    },
     "language": {
       "select": "Select language",
       "names": {
@@ -28,6 +37,29 @@
         "ua": "Ukrainian",
         "sp": "Spanish",
         "ru": "Russian"
+      }
+    },
+    "support": {
+      "info": "If you have any questions or issues, please fill out the form below and we'll get back to you as soon as possible.",
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Describe your issue or question"
+      },
+      "submit": "Send",
+      "submitting": "Sending...",
+      "success": {
+        "title": "Success",
+        "message": "Your message has been sent successfully. We'll get back to you soon."
+      },
+      "error": {
+        "title": "Error",
+        "emptyFields": "Please fill in all fields",
+        "invalidEmail": "Please enter a valid email address",
+        "submit": "An error occurred while sending the message. Please try again later."
       }
     }
   }

@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 import { COLORS } from '@/src/constants/colors';
 import { contentService } from '@/src/services/api';
@@ -9,12 +9,18 @@ import { useContentStore } from '@/src/store/contentStore';
 
 import Loader from '@/src/components/shared/Loader';
 
+const fanFactImg = require('@/src/assets/images/fanFact.png');
+const scienceFactImg = require('@/src/assets/images/scienceFact.png');
+const dayQuoteImg = require('@/src/assets/images/day_quote.png');
+const dayEventImg = require('@/src/assets/images/day_event.png');
+const dayQuestionImg = require('@/src/assets/images/day_question.png');
+
 const categories = [
-  { id: 1, name: "funFact", route: 'fanFact'},
-  { id: 2, name: "scienceFact", route: 'scienceFact' },
-  { id: 3, name: "quoteOfDay", route: 'dayQuote' },
-  { id: 4, name: "thisDayHistory", route: 'dayEvent' },
-  { id: 5, name: "questionOfDay", route: 'dayQuestion' },
+  { id: 1, name: "funFact", route: 'fanFact', img: fanFactImg },
+  { id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg },
+  { id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg },
+  { id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg },
+  { id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg },
 ];
 
 const HomeScreen = () => {
@@ -35,8 +41,13 @@ const HomeScreen = () => {
       setContent(data.message);
       router.push('/content');
     } catch (error) {
-      console.error('Error:', error);
-      setContent(t('common.errorMessage'));
+      const errorMessage = error instanceof Error ? error.message : t('common.errorMessage');
+      Alert.alert(
+        t('common.errorTitle'),
+        errorMessage,
+        [{ text: t('common.ok'), style: 'default' }]
+      );
+      setContent(errorMessage);
     } finally {
       setLoading(false);
       setLoadingButtonId(null);
@@ -61,7 +72,12 @@ const HomeScreen = () => {
             >
               <View style={styles.buttonContent}>
                 {loadingButtonId === item.id && <Loader />}
-                <Text style={styles.textBtn}>{t(`home.categories.${item.name}`)}</Text>
+                <Image
+                  source={item.img}
+                  style={styles.logo}
+                  resizeMode="cover"
+                />
+                <Text style={styles.textBtn} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -104,12 +120,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
+    padding: 12,
+    overflow: 'hidden',
   },
   buttonContent: {
-    flexDirection: 'row',
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
-    gap: 8,
-    padding: 16,
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: 8,
   },
   headerText: {
     fontSize: 24,
@@ -119,9 +143,11 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   textBtn: {
-    fontSize: 20,
+    fontSize: 16,
     color: COLORS.text_white,
     fontWeight: '600',
     textAlign: 'center',
+    flexWrap: 'wrap',
+    maxWidth: '100%',
   },
 });
