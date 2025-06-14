@@ -1,7 +1,17 @@
 {
   "common": {
     "btnBack": "Atrás",
-    "errorMessage": "Algo salió mal"
+    "errorMessage": "Algo salió mal",
+    "errorTitle": "Error",
+    "ok": "OK",
+    "errors": {
+      "contentNotFound": "Contenido no encontrado",
+      "serverError": "Error del servidor. Por favor, inténtelo de nuevo más tarde",
+      "serverErrorWithStatus": "Error del servidor: {{status}}",
+      "noResponse": "Sin respuesta del servidor. Por favor, verifique su conexión a internet",
+      "requestError": "Error al enviar la solicitud",
+      "unknownError": "Ocurrió un error desconocido"
+    }
   },
   "home": {
     "chooseCategory": "Elige una categoría",
@@ -18,9 +28,6 @@
       "language": "Idioma",
       "support": "Soporte"
     },
-    "support": {
-      "info": "Información de soporte"
-    },
     "language": {
       "select": "Seleccionar idioma",
       "names": {
@@ -28,6 +35,29 @@
         "ua": "Ucraniano",
         "sp": "Español",
         "ru": "Ruso"
+      }
+    },
+    "support": {
+      "info": "Si tienes alguna pregunta o problema, por favor completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.",
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "Ingresa tu correo electrónico"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Describe tu problema o pregunta"
+      },
+      "submit": "Enviar",
+      "submitting": "Enviando...",
+      "success": {
+        "title": "Éxito",
+        "message": "Tu mensaje ha sido enviado con éxito. Nos pondremos en contacto contigo pronto."
+      },
+      "error": {
+        "title": "Error",
+        "emptyFields": "Por favor completa todos los campos",
+        "invalidEmail": "Por favor ingresa un correo electrónico válido",
+        "submit": "Ocurrió un error al enviar el mensaje. Por favor intenta más tarde."
       }
     }
   }
