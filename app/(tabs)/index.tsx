@@ -6,6 +6,7 @@ import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDi
 import { COLORS } from '@/src/constants/colors';
 import { contentService } from '@/src/services/api';
 import { useContentStore } from '@/src/store/contentStore';
+import onboardingUtils from '../utils/onboarding';
 
 import Loader from '@/src/components/shared/Loader';
 
@@ -53,7 +54,24 @@ const HomeScreen = () => {
       setLoadingButtonId(null);
     }
   }
-  
+
+  const handleResetOnboarding = async () => {
+    try {
+      await onboardingUtils.resetOnboarding();
+      Alert.alert(
+        t('common.success'),
+        'Онбординг успешно сброшен',
+        [{ text: t('common.ok'), style: 'default' }]
+      );
+    } catch (error) {
+      Alert.alert(
+        t('common.errorTitle'),
+        'Ошибка при сбросе онбординга',
+        [{ text: t('common.ok'), style: 'default' }]
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -63,6 +81,16 @@ const HomeScreen = () => {
         numColumns={numColumns}
         columnWrapperStyle={styles.row}
         ListHeaderComponent={<Text style={styles.headerText}>{t('home.chooseCategory')}</Text>}
+        ListFooterComponent={
+          __DEV__ ? (
+            <TouchableOpacity
+              style={styles.resetButton}
+              onPress={handleResetOnboarding}
+            >
+              <Text style={styles.resetButtonText}>Сбросить онбординг</Text>
+            </TouchableOpacity>
+          ) : null
+        }
         renderItem={({ item }) => (
           <View style={styles.gridItem}>
             <TouchableOpacity
@@ -149,5 +177,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexWrap: 'wrap',
     maxWidth: '100%',
+  },
+  resetButton: {
+    backgroundColor: COLORS.btn_background,
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 20,
+    marginBottom: 40,
+    alignSelf: 'center',
+  },
+  resetButtonText: {
+    color: COLORS.text_white,
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

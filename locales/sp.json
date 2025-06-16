@@ -10,7 +10,9 @@
       "serverErrorWithStatus": "Error del servidor: {{status}}",
       "noResponse": "Sin respuesta del servidor. Por favor, verifique su conexión a internet",
       "requestError": "Error al enviar la solicitud",
-      "unknownError": "Ocurrió un error desconocido"
+      "unknownError": "Ocurrió un error desconocido",
+      "invalidData": "Datos inválidos",
+      "tooManyRequests": "Demasiadas solicitudes. Por favor, espere un momento"
     }
   },
   "home": {

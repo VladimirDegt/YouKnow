@@ -44,7 +44,6 @@ export const contentService = {
   },
 
   async sendSupportMessage(data: SupportMessage): Promise<SupportResponse> {
-    console.log('Sending support message:', data);
     try {
       const response = await axios.post<SupportResponse>(`${API_URL}/support/message`, data);
       return response.data;
