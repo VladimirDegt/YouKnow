@@ -1,9 +1,11 @@
 import { COLORS } from '@/src/constants/colors';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -18,32 +20,112 @@ import Animated, {
 } from 'react-native-reanimated';
 import onboardingUtils from './utils/onboarding';
 
-const onboardingData = [
-  {
-    id: '1',
-    title: 'Добро пожаловать',
-    description: 'Исследуйте мир с нашим приложением',
-    image: require('../assets/images/onboarding-1.png'),
-  },
-  {
-    id: '2',
-    title: 'Откройте новые возможности',
-    description: 'Находите интересные места и события',
-    image: require('../assets/images/onboarding-2.png'),
-  },
-  {
-    id: '3',
-    title: 'Начните прямо сейчас',
-    description: 'Присоединяйтесь к нашему сообществу',
-    image: require('../assets/images/onboarding-3.png'),
-  },
-];
+type OnboardingSlide = {
+  id: string;
+  title: string;
+  description: string;
+  image: any;
+};
 
 type SlideProps = {
-  item: typeof onboardingData[0];
+  item: OnboardingSlide;
   index: number;
   width: number;
   scrollX: Animated.SharedValue<number>;
+};
+
+const OnboardingScreen = () => {
+  const { width } = useWindowDimensions();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatListRef = useRef<FlatList>(null);
+  const scrollX = useSharedValue(0);
+  const { t } = useTranslation();
+
+  const onboardingData = useMemo(() => [
+    {
+      id: '1',
+      title: t('onboarding.slides.slide1.title'),
+      description: t('onboarding.slides.slide1.description'),
+      image: require('../assets/images/onboarding-1.jpg'),
+    },
+    {
+      id: '2',
+      title: t('onboarding.slides.slide2.title'),
+      description: t('onboarding.slides.slide2.description'),
+      image: require('../assets/images/onboarding-2.jpg'),
+    },
+    {
+      id: '3',
+      title: t('onboarding.slides.slide3.title'),
+      description: t('onboarding.slides.slide3.description'),
+      image: require('../assets/images/onboarding-3.jpg'),
+    },
+  ], [t]);
+
+  const handleSkip = async () => {
+    await onboardingUtils.setOnboardingCompleted();
+    router.replace('/');
+  };
+
+  const handleNext = () => {
+    if (currentIndex < onboardingData.length - 1) {
+      flatListRef.current?.scrollToIndex({
+        index: currentIndex + 1,
+        animated: true,
+      });
+    } else {
+      handleSkip();
+    }
+  };
+
+  const renderItem = ({ item, index }: { item: OnboardingSlide; index: number }) => (
+    <Slide item={item} index={index} width={width} scrollX={scrollX} />
+  );
+
+  const Pagination = () => {
+    return (
+      <View style={styles.paginationContainer}>
+        {onboardingData.map((_, index) => (
+          <PaginationDot
+            key={index}
+            index={index}
+            width={width}
+            scrollX={scrollX}
+          />
+        ))}
+      </View>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
+        <Text style={styles.skipText}>{t('common.skip')}</Text>
+      </TouchableOpacity>
+
+      <FlatList
+        ref={flatListRef}
+        data={onboardingData}
+        renderItem={renderItem}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onScroll={(event) => {
+          scrollX.value = event.nativeEvent.contentOffset.x;
+          setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / width));
+        }}
+        scrollEventThrottle={16}
+      />
+
+      <Pagination />
+
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <Text style={styles.buttonText}>
+          {currentIndex === onboardingData.length - 1 ? t('onboarding.buttons.start') : t('onboarding.buttons.next')}
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
 };
 
 const Slide = ({ item, index, width, scrollX }: SlideProps) => {
@@ -127,78 +209,6 @@ const PaginationDot = ({ index, width, scrollX }: PaginationDotProps) => {
   );
 };
 
-const OnboardingScreen = () => {
-  const { width } = useWindowDimensions();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
-  const scrollX = useSharedValue(0);
-
-  const handleSkip = async () => {
-    await onboardingUtils.setOnboardingCompleted();
-    router.replace('/');
-  };
-
-  const handleNext = () => {
-    if (currentIndex < onboardingData.length - 1) {
-      flatListRef.current?.scrollToIndex({
-        index: currentIndex + 1,
-        animated: true,
-      });
-    } else {
-      handleSkip();
-    }
-  };
-
-  const renderItem = ({ item, index }: { item: typeof onboardingData[0]; index: number }) => (
-    <Slide item={item} index={index} width={width} scrollX={scrollX} />
-  );
-
-  const Pagination = () => {
-    return (
-      <View style={styles.paginationContainer}>
-        {onboardingData.map((_, index) => (
-          <PaginationDot
-            key={index}
-            index={index}
-            width={width}
-            scrollX={scrollX}
-          />
-        ))}
-      </View>
-    );
-  };
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-        <Text style={styles.skipText}>Пропустить</Text>
-      </TouchableOpacity>
-
-      <FlatList
-        ref={flatListRef}
-        data={onboardingData}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={(event) => {
-          scrollX.value = event.nativeEvent.contentOffset.x;
-          setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / width));
-        }}
-        scrollEventThrottle={16}
-      />
-
-      <Pagination />
-
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>
-          {currentIndex === onboardingData.length - 1 ? 'Начать' : 'Далее'}
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -260,15 +270,15 @@ const styles = StyleSheet.create({
   },
   skipButton: {
     position: 'absolute',
-    top: 50,
+    top: 10,
     right: 20,
     zIndex: 1,
-    padding: 10,
+    padding: 8,
   },
   skipText: {
     color: COLORS.btn_background,
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '400',
   },
 });
 

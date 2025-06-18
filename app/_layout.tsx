@@ -22,7 +22,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar style={'inverted'} />
       <Header />
       <Stack screenOptions={{headerShown: false}} >
         <Stack.Screen name='(tabs)'/>
