@@ -25,7 +25,7 @@ const TabSelector = ({activeTab, onTabPress}: TabSelectorProps) => {
       Animated.spring(indicatorPosition, {
         toValue: activeTab === 'language' ? 0 : 1,
         useNativeDriver: true,
-        tension: 70,
+        tension: 50,
         friction: 7,
       }).start();
     }

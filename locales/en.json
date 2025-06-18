@@ -1,6 +1,7 @@
 {
   "common": {
     "btnBack": "Back",
+    "skip": "Skip",
     "errorMessage": "Something went wrong",
     "errorTitle": "Error",
     "ok": "OK",
@@ -22,7 +23,8 @@
       "scienceFact": "Science Fact",
       "quoteOfDay": "Quote of the Day",
       "thisDayHistory": "This Day in History",
-      "questionOfDay": "Question of the Day"
+      "questionOfDay": "Question of the Day",
+      "interestingPeople": "Interesting People"
     }
   },
   "profile": {
@@ -61,6 +63,26 @@
         "invalidEmail": "Please enter a valid email address",
         "submit": "An error occurred while sending the message. Please try again later."
       }
+    }
+  },
+  "onboarding": {
+    "slides": {
+      "slide1": {
+        "title": "Never lose a conversation topic",
+        "description": "Amazing facts for any occasion - from dates to business meetings"
+      },
+      "slide2": {
+        "title": "Be an interesting conversationalist",
+        "description": "AI creates unique stories that will make you look erudite"
+      },
+      "slide3": {
+        "title": "No more awkward pauses",
+        "description": "No more awkward silences - you always have something to tell"
+      }
+    },
+    "buttons": {
+      "next": "Next",
+      "start": "Start"
     }
   }
 }

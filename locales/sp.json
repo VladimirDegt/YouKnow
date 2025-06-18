@@ -1,6 +1,7 @@
 {
   "common": {
     "btnBack": "Atrás",
+    "skip": "Omitir",
     "errorMessage": "Algo salió mal",
     "errorTitle": "Error",
     "ok": "OK",
@@ -22,7 +23,8 @@
       "scienceFact": "Dato científico",
       "quoteOfDay": "Cita del día",
       "thisDayHistory": "Este día en la historia",
-      "questionOfDay": "Pregunta del día"
+      "questionOfDay": "Pregunta del día",
+      "interestingPeople": "Gente interesante"
     }
   },
   "profile": {
@@ -61,6 +63,26 @@
         "invalidEmail": "Por favor ingresa un correo electrónico válido",
         "submit": "Ocurrió un error al enviar el mensaje. Por favor intenta más tarde."
       }
+    }
+  },
+  "onboarding": {
+    "slides": {
+      "slide1": {
+        "title": "Nunca pierdas un tema de conversación",
+        "description": "Datos increíbles para cualquier ocasión - desde citas hasta reuniones de negocios"
+      },
+      "slide2": {
+        "title": "Sé un conversador interesante",
+        "description": "La IA crea historias únicas que te harán parecer erudito"
+      },
+      "slide3": {
+        "title": "No más pausas incómodas",
+        "description": "No más silencios incómodos - siempre tienes algo que contar"
+      }
+    },
+    "buttons": {
+      "next": "Siguiente",
+      "start": "Comenzar"
     }
   }
 }
