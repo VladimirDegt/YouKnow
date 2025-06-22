@@ -1,7 +1,7 @@
 import Loader from '@/src/components/shared/Loader';
-import { COLORS } from '@/src/constants/colors';
-import { Category } from '@/src/types/categories';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {COLORS} from '@/src/constants/colors';
+import {Category} from '@/src/types/categories';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 interface CategoryButtonProps {
   item: Category;
@@ -11,12 +11,12 @@ interface CategoryButtonProps {
   t: (key: string) => string;
 }
 
-export const CategoryButton = ({ 
-  item, 
-  onPress, 
-  isLoading, 
+export const CategoryButton = ({
+  item,
+  onPress,
+  isLoading,
   loadingButtonId,
-  t 
+  t
 }: CategoryButtonProps) => (
   <View style={styles.gridItem}>
     <TouchableOpacity
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-}); 
+});

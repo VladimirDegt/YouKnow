@@ -1,11 +1,11 @@
-import { router } from 'expo-router';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import {router} from 'expo-router';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 
-import { COLORS } from '@/src/constants/colors';
-import { contentService } from '@/src/services/api';
-import { useContentStore } from '@/src/store/contentStore';
+import {COLORS} from '@/src/constants/colors';
+import {contentService} from '@/src/services/api';
+import {useContentStore} from '@/src/store/contentStore';
 import onboardingUtils from '../utils/onboarding';
 
 import Loader from '@/src/components/shared/Loader';
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     width: '100%',
   },
   logo: {
