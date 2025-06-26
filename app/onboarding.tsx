@@ -52,13 +52,13 @@ const OnboardingScreen = () => {
       id: '2',
       title: t('onboarding.slides.slide2.title'),
       description: t('onboarding.slides.slide2.description'),
-      image: require('../assets/images/onboarding-2.jpg'),
+      image: require('../assets/images/onboarding-2.png'),
     },
     {
       id: '3',
       title: t('onboarding.slides.slide3.title'),
       description: t('onboarding.slides.slide3.description'),
-      image: require('../assets/images/onboarding-3.jpg'),
+      image: require('../assets/images/onboarding-3.png'),
     },
   ], [t]);
 
