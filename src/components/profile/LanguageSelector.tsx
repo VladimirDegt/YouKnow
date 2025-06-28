@@ -3,7 +3,7 @@ import { COLORS } from '@/src/constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 
 import FlagEN from '@/src/assets/icons/flagEN.svg';
 import FlagRU from '@/src/assets/icons/flagRU.svg';
@@ -21,6 +21,8 @@ const LANGUAGE_STORAGE_KEY = '@app_language';
 
 const LanguageSelector = () => {
   const { i18n, t } = useTranslation();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   useEffect(() => {
     const loadSavedLanguage = async () => {
@@ -47,19 +49,20 @@ const LanguageSelector = () => {
   };
 
   return (
-    <View style={styles.flagsContainer}>
+    <View style={[styles.flagsContainer, isTablet && styles.flagsContainerTablet]}>
       {LANGUAGES.map((lang) => (
         <TouchableOpacity
           key={lang.code}
           style={[
             styles.flagButton,
+            isTablet && styles.flagButtonTablet,
             i18n.language === lang.code && styles.activeFlagButton,
           ]}
           onPress={() => handleChangeLang(lang.code)}
           accessibilityLabel={t('profile.language.select')}
           accessibilityRole="button">
-          <lang.flag width={64} height={64} />
-          <Text style={styles.flagText}>{t(`profile.language.names.${lang.code}`)}</Text>
+          <lang.flag width={isTablet ? 96 : 64} height={isTablet ? 96 : 64} />
+          <Text style={[styles.flagText, isTablet && styles.flagTextTablet]}>{t(`profile.language.names.${lang.code}`)}</Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -72,6 +75,9 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginTop: 32
+  },
+  flagsContainerTablet: {
+    marginTop: 48,
   },
   flagButton: {
     width: '48%',
@@ -91,6 +97,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  flagButtonTablet: {
+    padding: 20,
+    marginBottom: 24,
+    borderRadius: 12,
+    shadowRadius: 6,
+    elevation: 5,
+  },
   activeFlagButton: {
     borderWidth: 3,
     borderColor: COLORS.active,
@@ -100,6 +113,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.text_white,
     textAlign: 'center',
+  },
+  flagTextTablet: {
+    marginTop: 12,
+    fontSize: 20,
   },
 });
 

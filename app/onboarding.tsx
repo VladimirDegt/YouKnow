@@ -1,23 +1,10 @@
-import { COLORS } from '@/src/constants/colors';
-import { Image } from 'expo-image';
-import { router } from 'expo-router';
-import React, { useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from 'react-native';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import {COLORS} from '@/src/constants/colors';
+import {Image} from 'expo-image';
+import {router} from 'expo-router';
+import React, {useMemo, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View,} from 'react-native';
+import Animated, {interpolate, useAnimatedStyle, useSharedValue, withSpring,} from 'react-native-reanimated';
 import onboardingUtils from './utils/onboarding';
 
 type OnboardingSlide = {
@@ -32,14 +19,17 @@ type SlideProps = {
   index: number;
   width: number;
   scrollX: Animated.SharedValue<number>;
+  isTablet: boolean;
 };
 
 const OnboardingScreen = () => {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const scrollX = useSharedValue(0);
   const { t } = useTranslation();
+  
+  const isTablet = width >= 768 || height >= 1024;
 
   const onboardingData = useMemo(() => [
     {
@@ -79,18 +69,19 @@ const OnboardingScreen = () => {
   };
 
   const renderItem = ({ item, index }: { item: OnboardingSlide; index: number }) => (
-    <Slide item={item} index={index} width={width} scrollX={scrollX} />
+    <Slide item={item} index={index} width={width} scrollX={scrollX} isTablet={isTablet} />
   );
 
   const Pagination = () => {
     return (
-      <View style={styles.paginationContainer}>
+      <View style={[styles.paginationContainer, isTablet && styles.paginationContainerTablet]}>
         {onboardingData.map((_, index) => (
           <PaginationDot
             key={index}
             index={index}
             width={width}
             scrollX={scrollX}
+            isTablet={isTablet}
           />
         ))}
       </View>
@@ -99,8 +90,8 @@ const OnboardingScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-        <Text style={styles.skipText}>{t('common.skip')}</Text>
+      <TouchableOpacity style={[styles.skipButton, isTablet && styles.skipButtonTablet]} onPress={handleSkip}>
+        <Text style={[styles.skipText, isTablet && styles.skipTextTablet]}>{t('common.skip')}</Text>
       </TouchableOpacity>
 
       <FlatList
@@ -119,8 +110,8 @@ const OnboardingScreen = () => {
 
       <Pagination />
 
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>
+      <TouchableOpacity style={[styles.button, isTablet && styles.buttonTablet]} onPress={handleNext}>
+        <Text style={[styles.buttonText, isTablet && styles.buttonTextTablet]}>
           {currentIndex === onboardingData.length - 1 ? t('onboarding.buttons.start') : t('onboarding.buttons.next')}
         </Text>
       </TouchableOpacity>
@@ -128,7 +119,7 @@ const OnboardingScreen = () => {
   );
 };
 
-const Slide = ({ item, index, width, scrollX }: SlideProps) => {
+const Slide = ({ item, index, width, scrollX, isTablet }: SlideProps) => {
   const inputRange = [
     (index - 1) * width,
     index * width,
@@ -149,16 +140,16 @@ const Slide = ({ item, index, width, scrollX }: SlideProps) => {
   });
 
   return (
-    <View style={[styles.slide, { width }]}>
-      <Animated.View style={[styles.imageContainer, animatedStyle]}>
+    <View style={[styles.slide, { width }, isTablet && styles.slideTablet]}>
+      <Animated.View style={[styles.imageContainer, isTablet && styles.imageContainerTablet, animatedStyle]}>
         <Image
           source={item.image}
           style={styles.image}
           contentFit="contain"
         />
       </Animated.View>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={[styles.title, isTablet && styles.titleTablet]}>{item.title}</Text>
+      <Text style={[styles.description, isTablet && styles.descriptionTablet]}>{item.description}</Text>
     </View>
   );
 };
@@ -167,9 +158,10 @@ type PaginationDotProps = {
   index: number;
   width: number;
   scrollX: Animated.SharedValue<number>;
+  isTablet: boolean;
 };
 
-const PaginationDot = ({ index, width, scrollX }: PaginationDotProps) => {
+const PaginationDot = ({ index, width, scrollX, isTablet }: PaginationDotProps) => {
   const inputRange = [
     (index - 1) * width,
     index * width,
@@ -177,10 +169,12 @@ const PaginationDot = ({ index, width, scrollX }: PaginationDotProps) => {
   ];
 
   const dotWidth = useAnimatedStyle(() => {
+    const baseWidth = isTablet ? 12 : 8;
+    const activeWidth = isTablet ? 30 : 20;
     const width = interpolate(
       scrollX.value,
       inputRange,
-      [8, 20, 8],
+      [baseWidth, activeWidth, baseWidth],
       'clamp'
     );
 
@@ -204,7 +198,7 @@ const PaginationDot = ({ index, width, scrollX }: PaginationDotProps) => {
 
   return (
     <Animated.View
-      style={[styles.dot, dotWidth, opacity]}
+      style={[styles.dot, isTablet && styles.dotTablet, dotWidth, opacity]}
     />
   );
 };
@@ -220,10 +214,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+  slideTablet: {
+    padding: 40,
+  },
   imageContainer: {
     width: '100%',
     height: 300,
     marginBottom: 40,
+  },
+  imageContainerTablet: {
+    height: 450,
+    marginBottom: 60,
   },
   image: {
     width: '100%',
@@ -236,11 +237,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.text_black,
   },
+  titleTablet: {
+    fontSize: 42,
+    marginBottom: 20,
+  },
   description: {
     fontSize: 16,
     textAlign: 'center',
     color: COLORS.text_gray,
     paddingHorizontal: 20,
+  },
+  descriptionTablet: {
+    fontSize: 24,
+    paddingHorizontal: 40,
+    lineHeight: 32,
   },
   paginationContainer: {
     flexDirection: 'row',
@@ -248,11 +258,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
+  paginationContainerTablet: {
+    marginBottom: 40,
+  },
   dot: {
     height: 8,
     borderRadius: 4,
     backgroundColor: COLORS.btn_background,
     marginHorizontal: 4,
+  },
+  dotTablet: {
+    height: 12,
+    borderRadius: 6,
+    marginHorizontal: 6,
   },
   button: {
     backgroundColor: COLORS.btn_background,
@@ -262,11 +280,21 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginHorizontal: 20,
   },
+  buttonTablet: {
+    paddingVertical: 20,
+    paddingHorizontal: 50,
+    borderRadius: 35,
+    marginBottom: 60,
+    marginHorizontal: 40,
+  },
   buttonText: {
     color: COLORS.text_white,
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  buttonTextTablet: {
+    fontSize: 24,
   },
   skipButton: {
     position: 'absolute',
@@ -275,11 +303,19 @@ const styles = StyleSheet.create({
     zIndex: 1,
     padding: 8,
   },
+  skipButtonTablet: {
+    top: 20,
+    right: 30,
+    padding: 12,
+  },
   skipText: {
     color: COLORS.btn_background,
     fontSize: 17,
     fontWeight: '400',
   },
+  skipTextTablet: {
+    fontSize: 22,
+  },
 });
 
-export default OnboardingScreen; 
+export default OnboardingScreen;

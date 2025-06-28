@@ -33,6 +33,11 @@ const HomeScreen = () => {
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
   const numColumns = isTablet ? 3 : 2;
+  const gap = isTablet ? 24 : 16;
+  const horizontalPadding = isTablet ? 32 * 2 : 16 * 2;
+  const itemWidth = isTablet
+    ? (width - horizontalPadding - gap * (numColumns - 1)) / numColumns
+    : '48%';
   const { t, i18n } = useTranslation();
   
   const handleButtonPress = async( id: number, route: string) => {
@@ -77,26 +82,32 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        contentContainerStyle={styles.blockBtn}
+        contentContainerStyle={[styles.blockBtn, isTablet && styles.blockBtnTablet]}
         data={categories}
         keyExtractor={(item) => item.id.toString()}
         numColumns={numColumns}
-        columnWrapperStyle={styles.row}
-        ListHeaderComponent={<Text style={styles.headerText}>{t('home.chooseCategory')}</Text>}
-        ListFooterComponent={
-          __DEV__ ? (
+        columnWrapperStyle={isTablet ? { gap } : styles.row}
+        ListHeaderComponent={<Text style={[styles.headerText, isTablet && styles.headerTextTablet]}>{t('home.chooseCategory')}</Text>}
+        // ListFooterComponent={
+        //   __DEV__ ? (
+        //     <TouchableOpacity
+        //       style={styles.resetButton}
+        //       onPress={handleResetOnboarding}
+        //     >
+        //       <Text style={styles.resetButtonText}>Сбросить онбординг</Text>
+        //     </TouchableOpacity>
+        //   ) : null
+        // }
+        renderItem={({ item, index }) => (
+          <View
+            style={[
+              styles.gridItem,
+              isTablet && { width: itemWidth },
+              isTablet && styles.gridItemTablet,
+            ]}
+          >
             <TouchableOpacity
-              style={styles.resetButton}
-              onPress={handleResetOnboarding}
-            >
-              <Text style={styles.resetButtonText}>Сбросить онбординг</Text>
-            </TouchableOpacity>
-          ) : null
-        }
-        renderItem={({ item }) => (
-          <View style={styles.gridItem}>
-            <TouchableOpacity
-              style={styles.btn}
+              style={[styles.btn, isTablet && styles.btnTablet]}
               onPress={() => handleButtonPress(item.id, item.route)}
               disabled={loading}
             >
@@ -104,10 +115,10 @@ const HomeScreen = () => {
                 {loadingButtonId === item.id && <Loader />}
                 <Image
                   source={item.img}
-                  style={styles.logo}
+                  style={[styles.logo, isTablet && styles.logoTablet]}
                   resizeMode="cover"
                 />
-                <Text style={styles.textBtn} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
+                <Text style={[styles.textBtn, isTablet && styles.textBtnTablet]} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -129,12 +140,19 @@ const styles = StyleSheet.create({
     marginVertical: 24,
     paddingHorizontal: 16,
   },
+  blockBtnTablet: {
+    marginVertical: 40,
+    paddingHorizontal: 32,
+  },
   row: {
     justifyContent: 'space-between',
   },
   gridItem: {
     width: '48%',
     paddingVertical: 8,
+  },
+  gridItemTablet: {
+    paddingVertical: 12,
   },
   btn: {
     aspectRatio: 1,
@@ -153,6 +171,12 @@ const styles = StyleSheet.create({
     padding: 12,
     overflow: 'hidden',
   },
+  btnTablet: {
+    borderRadius: 16,
+    padding: 20,
+    shadowRadius: 6,
+    elevation: 8,
+  },
   buttonContent: {
     flex: 1,
     flexDirection: 'column',
@@ -165,12 +189,21 @@ const styles = StyleSheet.create({
     height: 80,
     marginBottom: 8,
   },
+  logoTablet: {
+    width: 120,
+    height: 120,
+    marginBottom: 16,
+  },
   headerText: {
-    fontSize: 24,
+    fontSize: 20,
     textAlign: 'left',
     color: COLORS.text_black,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: 16,
+  },
+  headerTextTablet: {
+    fontSize: 32,
+    marginBottom: 24,
   },
   textBtn: {
     fontSize: 16,
@@ -179,6 +212,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flexWrap: 'wrap',
     maxWidth: '100%',
+  },
+  textBtnTablet: {
+    fontSize: 22,
+    lineHeight: 28,
   },
   resetButton: {
     backgroundColor: COLORS.btn_background,
