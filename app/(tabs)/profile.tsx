@@ -1,6 +1,6 @@
-import {COLORS} from '@/src/constants/colors';
-import React, {useRef, useState} from 'react';
-import {Animated, StyleSheet, View} from 'react-native';
+import { COLORS } from '@/src/constants/colors';
+import React, { useRef, useState } from 'react';
+import { Animated, StyleSheet, View, useWindowDimensions } from 'react-native';
 
 import LanguageSelector from '@/src/components/profile/LanguageSelector';
 import SupportTab from '@/src/components/profile/SupportTab';
@@ -10,6 +10,8 @@ import ArrowBack from '@/src/components/shared/ArrowBack';
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState<'language' | 'support'>('language');
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   const handleTabPress = (tab: 'language' | 'support') => {
     Animated.timing(fadeAnim, {
@@ -36,7 +38,7 @@ const ProfileScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isTablet && styles.containerTablet]}>
       <ArrowBack />
       <TabSelector activeTab={activeTab} onTabPress={handleTabPress} />
       <Animated.View style={[styles.contentContainer, { opacity: fadeAnim }]}>
@@ -52,6 +54,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     paddingVertical: 24,
     paddingHorizontal: 16,
+  },
+  containerTablet: {
+    paddingVertical: 40,
+    paddingHorizontal: 32,
   },
   contentContainer: {
     flex: 1,
