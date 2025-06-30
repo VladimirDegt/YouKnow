@@ -1,28 +1,28 @@
-import { COLORS } from '@/src/constants/colors';
-import { contentService } from '@/src/services/api';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import {COLORS} from '@/src/constants/colors';
+import {contentService} from '@/src/services/api';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 
 const SupportTab = () => {
   const {t} = useTranslation();
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
   const isTablet = width >= 768;
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   const handleSubmit = async () => {
     if (!email || !message) {
       Alert.alert(t('profile.support.error.title'), t('profile.support.error.emptyFields'));
       return;
     }
-
+    
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       Alert.alert(t('profile.support.error.title'), t('profile.support.error.invalidEmail'));
       return;
     }
-
+    
     try {
       setIsSubmitting(true);
       await contentService.sendSupportMessage({email, message});
@@ -37,7 +37,7 @@ const SupportTab = () => {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <View style={[styles.container, isTablet && styles.containerTablet]}>
       <Text style={[styles.content, isTablet && styles.contentTablet]}>{t('profile.support.info')}</Text>
@@ -55,7 +55,7 @@ const SupportTab = () => {
             autoCorrect={false}
           />
         </View>
-
+        
         <View style={styles.inputContainer}>
           <Text style={[styles.label, isTablet && styles.labelTablet]}>{t('profile.support.message.label')}</Text>
           <TextInput
@@ -73,7 +73,7 @@ const SupportTab = () => {
             {message.length}/1000
           </Text>
         </View>
-
+        
         <TouchableOpacity
           style={[styles.submitButton, isTablet && styles.submitButtonTablet, isSubmitting && styles.submitButtonDisabled]}
           onPress={handleSubmit}

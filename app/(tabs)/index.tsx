@@ -18,19 +18,19 @@ const dayQuestionImg = require('@/src/assets/images/day_question.png');
 const interestingPeopleImg = require('@/src/assets/images/interesting_people.png');
 
 const categories = [
-  { id: 1, name: "funFact", route: 'fanFact', img: fanFactImg },
-  { id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg },
-  { id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg },
-  { id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg },
-  { id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg },
-  { id: 6, name: "interestingPeople", route: 'interestingPeople', img: interestingPeopleImg },
+  {id: 1, name: "funFact", route: 'fanFact', img: fanFactImg},
+  {id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg},
+  {id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg},
+  {id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg},
+  {id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg},
+  {id: 6, name: "interestingPeople", route: 'interestingPeople', img: interestingPeopleImg},
 ];
 
 const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [loadingButtonId, setLoadingButtonId] = useState<number | null>(null);
   const setContent = useContentStore((state) => state.setContent);
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
   const isTablet = width >= 768;
   const numColumns = isTablet ? 3 : 2;
   const gap = isTablet ? 24 : 16;
@@ -38,9 +38,9 @@ const HomeScreen = () => {
   const itemWidth = isTablet
     ? (width - horizontalPadding - gap * (numColumns - 1)) / numColumns
     : '48%';
-  const { t, i18n } = useTranslation();
+  const {t, i18n} = useTranslation();
   
-  const handleButtonPress = async( id: number, route: string) => {
+  const handleButtonPress = async (id: number, route: string) => {
     setLoading(true);
     setLoadingButtonId(id);
     
@@ -53,7 +53,7 @@ const HomeScreen = () => {
       Alert.alert(
         t('common.errorTitle'),
         errorMessage,
-        [{ text: t('common.ok'), style: 'default' }]
+        [{text: t('common.ok'), style: 'default'}]
       );
       setContent(errorMessage);
     } finally {
@@ -61,24 +61,24 @@ const HomeScreen = () => {
       setLoadingButtonId(null);
     }
   }
-
+  
   const handleResetOnboarding = async () => {
     try {
       await onboardingUtils.resetOnboarding();
       Alert.alert(
         t('common.success'),
         'Онбординг успешно сброшен',
-        [{ text: t('common.ok'), style: 'default' }]
+        [{text: t('common.ok'), style: 'default'}]
       );
     } catch (error) {
       Alert.alert(
         t('common.errorTitle'),
         'Ошибка при сбросе онбординга',
-        [{ text: t('common.ok'), style: 'default' }]
+        [{text: t('common.ok'), style: 'default'}]
       );
     }
   };
-
+  
   return (
     <View style={styles.container}>
       <FlatList
@@ -86,8 +86,9 @@ const HomeScreen = () => {
         data={categories}
         keyExtractor={(item) => item.id.toString()}
         numColumns={numColumns}
-        columnWrapperStyle={isTablet ? { gap } : styles.row}
-        ListHeaderComponent={<Text style={[styles.headerText, isTablet && styles.headerTextTablet]}>{t('home.chooseCategory')}</Text>}
+        columnWrapperStyle={isTablet ? {gap} : styles.row}
+        ListHeaderComponent={
+          <Text style={[styles.headerText, isTablet && styles.headerTextTablet]}>{t('home.chooseCategory')}</Text>}
         // ListFooterComponent={
         //   __DEV__ ? (
         //     <TouchableOpacity
@@ -98,11 +99,11 @@ const HomeScreen = () => {
         //     </TouchableOpacity>
         //   ) : null
         // }
-        renderItem={({ item, index }) => (
+        renderItem={({item, index}) => (
           <View
             style={[
               styles.gridItem,
-              isTablet && { width: itemWidth },
+              isTablet && {width: itemWidth},
               isTablet && styles.gridItemTablet,
             ]}
           >
@@ -118,7 +119,10 @@ const HomeScreen = () => {
                   style={[styles.logo, isTablet && styles.logoTablet]}
                   resizeMode="cover"
                 />
-                <Text style={[styles.textBtn, isTablet && styles.textBtnTablet]} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
+                <Text
+                  style={[styles.textBtn, isTablet && styles.textBtnTablet]}
+                  numberOfLines={2}
+                >{t(`home.categories.${item.name}`)}</Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -1,10 +1,10 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
+import {Ionicons} from '@expo/vector-icons';
+import {Tabs} from "expo-router";
+import {useColorScheme} from "react-native";
 
 export default function BottomTabBar() {
   const colorScheme = useColorScheme();
-
+  
   return (
     <Tabs
       screenOptions={{
@@ -13,7 +13,7 @@ export default function BottomTabBar() {
           backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
           borderTopWidth: 0,
           shadowColor: '#000',
-          shadowOffset: { width: 0, height: -4 },
+          shadowOffset: {width: 0, height: -4},
           shadowOpacity: 0.1,
           shadowRadius: 4,
           elevation: 5,
@@ -31,14 +31,22 @@ export default function BottomTabBar() {
         name='index'
         options={{
           title: 'Home',
-          tabBarIcon: ({color}) => <Ionicons name='home' size={24} color={color}/>
+          tabBarIcon: ({color}) => <Ionicons
+            name='home'
+            size={24}
+            color={color}
+          />
         }}
       />
       <Tabs.Screen
         name='profile'
         options={{
           title: 'Profile',
-          tabBarIcon: ({color}) => <Ionicons name='person' size={24} color={color}/>
+          tabBarIcon: ({color}) => <Ionicons
+            name='person'
+            size={24}
+            color={color}
+          />
         }}
       />
     </Tabs>

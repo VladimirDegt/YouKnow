@@ -23,14 +23,14 @@ type SlideProps = {
 };
 
 const OnboardingScreen = () => {
-  const { width, height } = useWindowDimensions();
+  const {width, height} = useWindowDimensions();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const scrollX = useSharedValue(0);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   
   const isTablet = width >= 768 || height >= 1024;
-
+  
   const onboardingData = useMemo(() => [
     {
       id: '1',
@@ -51,12 +51,12 @@ const OnboardingScreen = () => {
       image: require('../assets/images/onboarding-3.png'),
     },
   ], [t]);
-
+  
   const handleSkip = async () => {
     await onboardingUtils.setOnboardingCompleted();
     router.replace('/');
   };
-
+  
   const handleNext = () => {
     if (currentIndex < onboardingData.length - 1) {
       flatListRef.current?.scrollToIndex({
@@ -67,11 +67,17 @@ const OnboardingScreen = () => {
       handleSkip();
     }
   };
-
-  const renderItem = ({ item, index }: { item: OnboardingSlide; index: number }) => (
-    <Slide item={item} index={index} width={width} scrollX={scrollX} isTablet={isTablet} />
+  
+  const renderItem = ({item, index}: { item: OnboardingSlide; index: number }) => (
+    <Slide
+      item={item}
+      index={index}
+      width={width}
+      scrollX={scrollX}
+      isTablet={isTablet}
+    />
   );
-
+  
   const Pagination = () => {
     return (
       <View style={[styles.paginationContainer, isTablet && styles.paginationContainerTablet]}>
@@ -87,13 +93,16 @@ const OnboardingScreen = () => {
       </View>
     );
   };
-
+  
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={[styles.skipButton, isTablet && styles.skipButtonTablet]} onPress={handleSkip}>
+      <TouchableOpacity
+        style={[styles.skipButton, isTablet && styles.skipButtonTablet]}
+        onPress={handleSkip}
+      >
         <Text style={[styles.skipText, isTablet && styles.skipTextTablet]}>{t('common.skip')}</Text>
       </TouchableOpacity>
-
+      
       <FlatList
         ref={flatListRef}
         data={onboardingData}
@@ -107,10 +116,13 @@ const OnboardingScreen = () => {
         }}
         scrollEventThrottle={16}
       />
-
+      
       <Pagination />
-
-      <TouchableOpacity style={[styles.button, isTablet && styles.buttonTablet]} onPress={handleNext}>
+      
+      <TouchableOpacity
+        style={[styles.button, isTablet && styles.buttonTablet]}
+        onPress={handleNext}
+      >
         <Text style={[styles.buttonText, isTablet && styles.buttonTextTablet]}>
           {currentIndex === onboardingData.length - 1 ? t('onboarding.buttons.start') : t('onboarding.buttons.next')}
         </Text>
@@ -119,13 +131,13 @@ const OnboardingScreen = () => {
   );
 };
 
-const Slide = ({ item, index, width, scrollX, isTablet }: SlideProps) => {
+const Slide = ({item, index, width, scrollX, isTablet}: SlideProps) => {
   const inputRange = [
     (index - 1) * width,
     index * width,
     (index + 1) * width,
   ];
-
+  
   const animatedStyle = useAnimatedStyle(() => {
     const scale = interpolate(
       scrollX.value,
@@ -133,14 +145,14 @@ const Slide = ({ item, index, width, scrollX, isTablet }: SlideProps) => {
       [0.8, 1, 0.8],
       'clamp'
     );
-
+    
     return {
-      transform: [{ scale: withSpring(scale) }],
+      transform: [{scale: withSpring(scale)}],
     };
   });
-
+  
   return (
-    <View style={[styles.slide, { width }, isTablet && styles.slideTablet]}>
+    <View style={[styles.slide, {width}, isTablet && styles.slideTablet]}>
       <Animated.View style={[styles.imageContainer, isTablet && styles.imageContainerTablet, animatedStyle]}>
         <Image
           source={item.image}
@@ -161,13 +173,13 @@ type PaginationDotProps = {
   isTablet: boolean;
 };
 
-const PaginationDot = ({ index, width, scrollX, isTablet }: PaginationDotProps) => {
+const PaginationDot = ({index, width, scrollX, isTablet}: PaginationDotProps) => {
   const inputRange = [
     (index - 1) * width,
     index * width,
     (index + 1) * width,
   ];
-
+  
   const dotWidth = useAnimatedStyle(() => {
     const baseWidth = isTablet ? 12 : 8;
     const activeWidth = isTablet ? 30 : 20;
@@ -177,12 +189,12 @@ const PaginationDot = ({ index, width, scrollX, isTablet }: PaginationDotProps) 
       [baseWidth, activeWidth, baseWidth],
       'clamp'
     );
-
+    
     return {
       width,
     };
   });
-
+  
   const opacity = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollX.value,
@@ -190,12 +202,12 @@ const PaginationDot = ({ index, width, scrollX, isTablet }: PaginationDotProps) 
       [0.3, 1, 0.3],
       'clamp'
     );
-
+    
     return {
       opacity,
     };
   });
-
+  
   return (
     <Animated.View
       style={[styles.dot, isTablet && styles.dotTablet, dotWidth, opacity]}
