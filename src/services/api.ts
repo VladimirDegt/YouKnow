@@ -1,7 +1,7 @@
 import axios, {isAxiosError} from 'axios';
 import {t} from 'i18next';
 
-const API_URL = process.env.EXPO_PUBLIC_URL_SERVER;
+const API_URL = "https://iwonder-8z2j.onrender.com";
 
 export interface ContentResponse {
   message: string;
@@ -20,7 +20,7 @@ export interface SupportResponse {
 export const contentService = {
   async getContent(route: string, lang: string): Promise<ContentResponse> {
     try {
-      const response = await axios.post<ContentResponse>(`${API_URL}/content/${route}`, { lang });
+      const response = await axios.post<ContentResponse>(`${API_URL}/content/${route}`, {lang});
       return response.data;
     } catch (error) {
       if (isAxiosError(error)) {
@@ -31,7 +31,7 @@ export const contentService = {
             case 500:
               throw new Error(t('common.errors.serverError'));
             default:
-              throw new Error(t('common.errors.serverErrorWithStatus', { status: error.response.status }));
+              throw new Error(t('common.errors.serverErrorWithStatus', {status: error.response.status}));
           }
         } else if (error.request) {
           throw new Error(t('common.errors.noResponse'));
@@ -42,7 +42,7 @@ export const contentService = {
       throw new Error(t('common.errors.unknownError'));
     }
   },
-
+  
   async sendSupportMessage(data: SupportMessage): Promise<SupportResponse> {
     try {
       const response = await axios.post<SupportResponse>(`${API_URL}/support/message`, data);
@@ -58,7 +58,7 @@ export const contentService = {
             case 500:
               throw new Error(t('common.errors.serverError'));
             default:
-              throw new Error(t('common.errors.serverErrorWithStatus', { status: error.response.status }));
+              throw new Error(t('common.errors.serverErrorWithStatus', {status: error.response.status}));
           }
         } else if (error.request) {
           throw new Error(t('common.errors.noResponse'));

@@ -3,9 +3,9 @@ import {FC, useEffect} from 'react';
 import {Animated, Easing, View} from 'react-native';
 
 const Loader: FC = () => {
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   const spinValue = new Animated.Value(0);
-
+  
   useEffect(() => {
     Animated.loop(
       Animated.timing(spinValue, {
@@ -16,14 +16,14 @@ const Loader: FC = () => {
       })
     ).start();
   }, [spinValue]);
-
+  
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
-
+  
   return (
-    <View style={{ width: 24, height: 24 }}>
+    <View style={{width: 24, height: 24}}>
       <Animated.View
         style={{
           width: '100%',
@@ -32,7 +32,7 @@ const Loader: FC = () => {
           borderRadius: 12,
           borderColor: colors.background,
           borderBottomColor: colors.primary,
-          transform: [{ rotate: spin }],
+          transform: [{rotate: spin}],
         }}
       />
     </View>

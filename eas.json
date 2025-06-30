@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "degtyarevvladimirr@gmail.com",
+        "ascAppId": "6747800154",
+        "appleTeamId": "XL893FPPDB"
+      }
+    }
   }
 }
