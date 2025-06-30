@@ -6,8 +6,7 @@ import {Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDim
 import {COLORS} from '@/src/constants/colors';
 import {contentService} from '@/src/services/api';
 import {useContentStore} from '@/src/store/contentStore';
-import onboardingUtils from '../utils/onboarding';
-
+// import onboardingUtils from '../utils/onboarding';
 import Loader from '@/src/components/shared/Loader';
 
 const fanFactImg = require('@/src/assets/images/fanFact.png');
@@ -62,22 +61,22 @@ const HomeScreen = () => {
     }
   }
   
-  const handleResetOnboarding = async () => {
-    try {
-      await onboardingUtils.resetOnboarding();
-      Alert.alert(
-        t('common.success'),
-        'Онбординг успешно сброшен',
-        [{text: t('common.ok'), style: 'default'}]
-      );
-    } catch (error) {
-      Alert.alert(
-        t('common.errorTitle'),
-        'Ошибка при сбросе онбординга',
-        [{text: t('common.ok'), style: 'default'}]
-      );
-    }
-  };
+  // const handleResetOnboarding = async () => {
+  //   try {
+  //     await onboardingUtils.resetOnboarding();
+  //     Alert.alert(
+  //       t('common.success'),
+  //       'Онбординг успешно сброшен',
+  //       [{text: t('common.ok'), style: 'default'}]
+  //     );
+  //   } catch (error) {
+  //     Alert.alert(
+  //       t('common.errorTitle'),
+  //       'Ошибка при сбросе онбординга',
+  //       [{text: t('common.ok'), style: 'default'}]
+  //     );
+  //   }
+  // };
   
   return (
     <View style={styles.container}>
