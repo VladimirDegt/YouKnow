@@ -30,7 +30,8 @@
   "profile": {
     "tabs": {
       "language": "Idioma",
-      "support": "Soporte"
+      "support": "Soporte",
+      "about": "Acerca de"
     },
     "language": {
       "select": "Seleccionar idioma",
@@ -63,6 +64,11 @@
         "invalidEmail": "Por favor ingresa un correo electrónico válido",
         "submit": "Ocurrió un error al enviar el mensaje. Por favor intenta más tarde."
       }
+    },
+    "about": {
+      "title": "Acerca de la aplicación",
+      "aiInfo": "Todo el contenido de esta aplicación es generado por inteligencia artificial para su comodidad e interés.",
+      "version": "Versión de la aplicación: {{version}}"
     }
   },
   "onboarding": {

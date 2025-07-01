@@ -1,8 +1,8 @@
-import {COLORS} from '@/src/constants/colors';
-import {contentService} from '@/src/services/api';
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View} from 'react-native';
+import { COLORS } from '@/src/constants/colors';
+import { contentService } from '@/src/services/api';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 const SupportTab = () => {
   const {t} = useTranslation();
@@ -39,52 +39,63 @@ const SupportTab = () => {
   };
   
   return (
-    <View style={[styles.container, isTablet && styles.containerTablet]}>
-      <Text style={[styles.content, isTablet && styles.contentTablet]}>{t('profile.support.info')}</Text>
-      <View style={[styles.form, isTablet && styles.formTablet]}>
-        <View style={styles.inputContainer}>
-          <Text style={[styles.label, isTablet && styles.labelTablet]}>{t('profile.support.email.label')}</Text>
-          <TextInput
-            style={[styles.input, isTablet && styles.inputTablet]}
-            value={email}
-            onChangeText={setEmail}
-            placeholder={t('profile.support.email.placeholder')}
-            placeholderTextColor={COLORS.text_gray}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={[styles.container, isTablet && styles.containerTablet]}>
+          <Text style={[styles.content, isTablet && styles.contentTablet]}>{t('profile.support.info')}</Text>
+          <View style={[styles.form, isTablet && styles.formTablet]}>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.label, isTablet && styles.labelTablet]}>{t('profile.support.email.label')}</Text>
+              <TextInput
+                style={[styles.input, isTablet && styles.inputTablet]}
+                value={email}
+                onChangeText={setEmail}
+                placeholder={t('profile.support.email.placeholder')}
+                placeholderTextColor={COLORS.text_gray}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.label, isTablet && styles.labelTablet]}>{t('profile.support.message.label')}</Text>
+              <TextInput
+                style={[styles.textArea, isTablet && styles.textAreaTablet]}
+                value={message}
+                onChangeText={setMessage}
+                placeholder={t('profile.support.message.placeholder')}
+                placeholderTextColor={COLORS.text_gray}
+                multiline
+                numberOfLines={5}
+                maxLength={1000}
+                textAlignVertical="top"
+              />
+              <Text style={[styles.characterCount, isTablet && styles.characterCountTablet]}>
+                {message.length}/1000
+              </Text>
+            </View>
+            
+            <TouchableOpacity
+              style={[styles.submitButton, isTablet && styles.submitButtonTablet, isSubmitting && styles.submitButtonDisabled]}
+              onPress={handleSubmit}
+              disabled={isSubmitting}
+            >
+              <Text style={[styles.submitButtonText, isTablet && styles.submitButtonTextTablet]}>
+                {isSubmitting ? t('profile.support.submitting') : t('profile.support.submit')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        
-        <View style={styles.inputContainer}>
-          <Text style={[styles.label, isTablet && styles.labelTablet]}>{t('profile.support.message.label')}</Text>
-          <TextInput
-            style={[styles.textArea, isTablet && styles.textAreaTablet]}
-            value={message}
-            onChangeText={setMessage}
-            placeholder={t('profile.support.message.placeholder')}
-            placeholderTextColor={COLORS.text_gray}
-            multiline
-            numberOfLines={5}
-            maxLength={1000}
-            textAlignVertical="top"
-          />
-          <Text style={[styles.characterCount, isTablet && styles.characterCountTablet]}>
-            {message.length}/1000
-          </Text>
-        </View>
-        
-        <TouchableOpacity
-          style={[styles.submitButton, isTablet && styles.submitButtonTablet, isSubmitting && styles.submitButtonDisabled]}
-          onPress={handleSubmit}
-          disabled={isSubmitting}
-        >
-          <Text style={[styles.submitButtonText, isTablet && styles.submitButtonTextTablet]}>
-            {isSubmitting ? t('profile.support.submitting') : t('profile.support.submit')}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

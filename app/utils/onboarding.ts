@@ -8,9 +8,9 @@ export const setOnboardingCompleted = async () => {
   await AsyncStorage.setItem('onboardingCompleted', 'true');
 };
 
-const onboardingUtils = {
+export const onboardingUtils = {
   resetOnboarding,
   setOnboardingCompleted,
 };
 
-export default onboardingUtils; 
+export default onboardingUtils;

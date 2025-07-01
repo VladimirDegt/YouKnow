@@ -1,23 +1,23 @@
-import {useTheme} from '@react-navigation/native';
-import {FC, useEffect} from 'react';
-import {Animated, Easing, View} from 'react-native';
+import { useTheme } from '@react-navigation/native';
+import { FC, useEffect, useRef } from 'react';
+import { Animated, Easing, View } from 'react-native';
 
 const Loader: FC = () => {
   const {colors} = useTheme();
-  const spinValue = new Animated.Value(0);
+  const spinValue = useRef(new Animated.Value(0));
   
   useEffect(() => {
     Animated.loop(
-      Animated.timing(spinValue, {
+      Animated.timing(spinValue.current, {
         toValue: 1,
         duration: 250,
         easing: Easing.linear,
         useNativeDriver: true,
       })
     ).start();
-  }, [spinValue]);
+  }, []);
   
-  const spin = spinValue.interpolate({
+  const spin = spinValue.current.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });

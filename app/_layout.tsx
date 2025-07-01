@@ -2,14 +2,12 @@ import {useLanguageInit} from '@/src/hooks/useLanguageInit';
 import {Stack, useRouter} from "expo-router";
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect} from 'react';
-import {useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import '../services/i18next';
 import Header from '../src/components/shared/Header';
 import useOnboarding from '@/app/hooks/useOnboarding';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const isFirstLaunch = useOnboarding();
   const router = useRouter();
   useLanguageInit();
@@ -18,7 +16,7 @@ export default function RootLayout() {
     if (isFirstLaunch === true) {
       router.replace('/onboarding');
     }
-  }, [isFirstLaunch]);
+  }, [isFirstLaunch, router]);
   
   return (
     <SafeAreaProvider>

@@ -1,19 +1,20 @@
-import {COLORS} from '@/src/constants/colors';
-import React, {useRef, useState} from 'react';
-import {Animated, StyleSheet, useWindowDimensions, View} from 'react-native';
+import { COLORS } from '@/src/constants/colors';
+import React, { useRef, useState } from 'react';
+import { Animated, StyleSheet, useWindowDimensions, View } from 'react-native';
 
+import AboutTab from '@/src/components/profile/AboutTab';
 import LanguageSelector from '@/src/components/profile/LanguageSelector';
 import SupportTab from '@/src/components/profile/SupportTab';
 import TabSelector from '@/src/components/profile/TabSelector';
 import ArrowBack from '@/src/components/shared/ArrowBack';
 
 const ProfileScreen = () => {
-  const [activeTab, setActiveTab] = useState<'language' | 'support'>('language');
+  const [activeTab, setActiveTab] = useState<'language' | 'support' | 'about'>('language');
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const {width} = useWindowDimensions();
   const isTablet = width >= 768;
   
-  const handleTabPress = (tab: 'language' | 'support') => {
+  const handleTabPress = (tab: 'language' | 'support' | 'about') => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 150,
@@ -34,6 +35,8 @@ const ProfileScreen = () => {
         return <LanguageSelector />;
       case 'support':
         return <SupportTab />;
+      case 'about':
+        return <AboutTab />;
     }
   };
   
