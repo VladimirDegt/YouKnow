@@ -5,11 +5,12 @@ import { Animated, StyleSheet, View, useWindowDimensions } from 'react-native';
 import LanguageSelector from '@/src/components/profile/LanguageSelector';
 import SupportTab from '@/src/components/profile/SupportTab';
 import TabSelector from '@/src/components/profile/TabSelector';
+import AboutTab from '@/src/components/profile/AboutTab';
 import ArrowBack from '@/src/components/shared/ArrowBack';
 import { useTranslation } from 'react-i18next';
 
 const ProfileScreen = () => {
-  const [activeTab, setActiveTab] = useState<'language' | 'support'>('language');
+  const [activeTab, setActiveTab] = useState<'language' | 'support' | 'about'>('language');
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
@@ -17,16 +18,17 @@ const ProfileScreen = () => {
   const profileTabs = [
     { key: 'language', label: t('profile.tabs.language') },
     { key: 'support', label: t('profile.tabs.support') },
+    { key: 'about', label: t('profile.tabs.about') },
   ];
-
+  
   const handleTabPress = (tab: string) => {
-    setActiveTab(tab as 'language' | 'support');
+    setActiveTab(tab as 'language' | 'support' | 'about');
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 150,
       useNativeDriver: true,
     }).start(() => {
-      setActiveTab(tab as 'language' | 'support');
+      setActiveTab(tab as 'language' | 'support' | 'about');
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 150,
@@ -41,6 +43,8 @@ const ProfileScreen = () => {
         return <LanguageSelector />;
       case 'support':
         return <SupportTab />;
+      case 'about':
+        return <AboutTab />;
     }
   };
 

@@ -1,12 +1,9 @@
-import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { COLORS } from '@/src/constants/colors';
-import { contentService } from '@/src/services/api';
-import { useContentStore } from '@/src/store/contentStore';
-import onboardingUtils from '../utils/onboarding';
+// import onboardingUtils from '../utils/onboarding';
 
 import CategoriesTab from '@/src/components/home/CategoriesTab';
 import NewsTab from '@/src/components/home/NewsTab';
@@ -29,10 +26,7 @@ const categories = [
 ];
 
 const HomeScreen = () => {
-  const [loading, setLoading] = useState(false);
-  const [loadingButtonId, setLoadingButtonId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState('categories');
-  const setContent = useContentStore((state) => state.setContent);
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
   const numColumns = isTablet ? 3 : 2;
@@ -41,46 +35,24 @@ const HomeScreen = () => {
   const itemWidth = isTablet
     ? (width - horizontalPadding - gap * (numColumns - 1)) / numColumns
     : '48%';
-  const { t, i18n } = useTranslation();
-  
-  const handleButtonPress = async( id: number, route: string) => {
-    setLoading(true);
-    setLoadingButtonId(id);
-    
-    try {
-      const data = await contentService.getContent(route, i18n.language);
-      setContent(data.message);
-      router.push('/content');
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : t('common.errorMessage');
-      Alert.alert(
-        t('common.errorTitle'),
-        errorMessage,
-        [{ text: t('common.ok'), style: 'default' }]
-      );
-      setContent(errorMessage);
-    } finally {
-      setLoading(false);
-      setLoadingButtonId(null);
-    }
-  }
+  const { t } = useTranslation();
 
-  const handleResetOnboarding = async () => {
-    try {
-      await onboardingUtils.resetOnboarding();
-      Alert.alert(
-        t('common.success'),
-        'Онбординг успешно сброшен',
-        [{ text: t('common.ok'), style: 'default' }]
-      );
-    } catch (error) {
-      Alert.alert(
-        t('common.errorTitle'),
-        'Ошибка при сбросе онбординга',
-        [{ text: t('common.ok'), style: 'default' }]
-      );
-    }
-  };
+  // const handleResetOnboarding = async () => {
+  //   try {
+  //     await onboardingUtils.resetOnboarding();
+  //     Alert.alert(
+  //       t('common.success'),
+  //       'Онбординг успешно сброшен',
+  //       [{ text: t('common.ok'), style: 'default' }]
+  //     );
+  //   } catch (error) {
+  //     Alert.alert(
+  //       t('common.errorTitle'),
+  //       'Ошибка при сбросе онбординга',
+  //       [{ text: t('common.ok'), style: 'default' }]
+  //     );
+  //   }
+  // };
 
   const renderContent = () => {
     if (activeTab === 'categories') {

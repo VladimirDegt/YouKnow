@@ -5,7 +5,7 @@ import React, {useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View,} from 'react-native';
 import Animated, {interpolate, useAnimatedStyle, useSharedValue, withSpring,} from 'react-native-reanimated';
-import onboardingUtils from './utils/onboarding';
+import {onboardingUtils} from '@/app/utils/onboarding';
 
 type OnboardingSlide = {
   id: string;

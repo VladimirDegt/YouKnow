@@ -16,7 +16,7 @@ const TabSelector = ({ tabs, activeTab, onTabPress }: TabSelectorProps) => {
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
-    setTabWidth(width / tabs.length);
+    setTabWidth(width / 3);
   };
 
   useEffect(() => {
