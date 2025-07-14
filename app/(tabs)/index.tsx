@@ -1,15 +1,16 @@
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Alert, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { COLORS } from '@/src/constants/colors';
 import { contentService } from '@/src/services/api';
 import { useContentStore } from '@/src/store/contentStore';
 import onboardingUtils from '../utils/onboarding';
 
+import CategoriesTab from '@/src/components/home/CategoriesTab';
+import NewsTab from '@/src/components/home/NewsTab';
 import TabSelector from '@/src/components/profile/TabSelector';
-import Loader from '@/src/components/shared/Loader';
 
 const fanFactImg = require('@/src/assets/images/fanFact.png');
 const scienceFactImg = require('@/src/assets/images/scienceFact.png');
@@ -84,47 +85,16 @@ const HomeScreen = () => {
   const renderContent = () => {
     if (activeTab === 'categories') {
       return (
-        <FlatList
-          contentContainerStyle={[styles.blockBtn, isTablet && styles.blockBtnTablet]}
-          data={categories}
-          keyExtractor={(item) => item.id.toString()}
+        <CategoriesTab
+          categories={categories}
+          isTablet={isTablet}
           numColumns={numColumns}
-          columnWrapperStyle={isTablet ? { gap } : styles.row}
-          renderItem={({ item, index }) => (
-            <View
-              style={[
-                styles.gridItem,
-                isTablet && { width: itemWidth },
-                isTablet && styles.gridItemTablet,
-              ]}
-            >
-              <TouchableOpacity
-                style={[styles.btn, isTablet && styles.btnTablet]}
-                onPress={() => handleButtonPress(item.id, item.route)}
-                disabled={loading}
-              >
-                <View style={styles.buttonContent}>
-                  {loadingButtonId === item.id && <Loader />}
-                  <Image
-                    source={item.img}
-                    style={[styles.logo, isTablet && styles.logoTablet]}
-                    resizeMode="cover"
-                  />
-                  <Text style={[styles.textBtn, isTablet && styles.textBtnTablet]} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
+          gap={gap}
+          itemWidth={typeof itemWidth === 'number' ? itemWidth : 0}
         />
       );
     }
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontSize: isTablet ? 24 : 18, color: COLORS.text_black, textAlign: 'center' }}>
-          {t('home.tabs.newsStub')}
-        </Text>
-      </View>
-    );
+    return <NewsTab />;
   };
 
   return (
