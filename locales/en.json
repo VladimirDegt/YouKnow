@@ -25,6 +25,11 @@
       "thisDayHistory": "This Day in History",
       "questionOfDay": "Question of the Day",
       "interestingPeople": "Interesting People"
+    },
+    "tabs": {
+      "categories": "Categories",
+      "news": "News",
+      "newsStub": "News will appear here"
     }
   },
   "profile": {

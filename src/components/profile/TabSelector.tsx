@@ -1,17 +1,14 @@
 import { COLORS } from '@/src/constants/colors';
 import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Animated, LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 
-type TabType = 'language' | 'support';
-
 interface TabSelectorProps {
-  activeTab: TabType;
-  onTabPress: (tab: TabType) => void;
+  tabs: { key: string; label: string }[];
+  activeTab: string;
+  onTabPress: (tab: string) => void;
 }
 
-const TabSelector = ({activeTab, onTabPress}: TabSelectorProps) => {
-  const { t } = useTranslation();
+const TabSelector = ({ tabs, activeTab, onTabPress }: TabSelectorProps) => {
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
   const indicatorPosition = useRef(new Animated.Value(0)).current;
@@ -19,42 +16,53 @@ const TabSelector = ({activeTab, onTabPress}: TabSelectorProps) => {
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
-    setTabWidth(width / 2);
+    setTabWidth(width / tabs.length);
   };
 
   useEffect(() => {
     if (tabWidth > 0) {
+      const activeIndex = tabs.findIndex(tab => tab.key === activeTab);
       Animated.spring(indicatorPosition, {
-        toValue: activeTab === 'language' ? 0 : 1,
+        toValue: activeIndex,
         useNativeDriver: true,
         tension: 50,
         friction: 7,
       }).start();
     }
-  }, [activeTab, indicatorPosition, tabWidth]);
+  }, [activeTab, indicatorPosition, tabWidth, tabs]);
 
   const translateX = indicatorPosition.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, tabWidth],
+    inputRange: tabs.map((_, i) => i),
+    outputRange: tabs.map((_, i) => i * tabWidth),
   });
 
   return (
     <View style={[styles.tabsContainer, isTablet && styles.tabsContainerTablet]}>
       <View style={styles.tabsWrapper} onLayout={handleLayout}>
-        <TouchableOpacity
-          style={[styles.tab, isTablet && styles.tabTablet, activeTab === 'language' && styles.activeTab]}
-          onPress={() => onTabPress('language')}>
-          <Text style={[styles.tabText, isTablet && styles.tabTextTablet, activeTab === 'language' && styles.activeTabText]}>
-            {t('profile.tabs.language')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, isTablet && styles.tabTablet, activeTab === 'support' && styles.activeTab]}
-          onPress={() => onTabPress('support')}>
-          <Text style={[styles.tabText, isTablet && styles.tabTextTablet, activeTab === 'support' && styles.activeTabText]}>
-            {t('profile.tabs.support')}
-          </Text>
-        </TouchableOpacity>
+        {tabs.map((tab, idx) => (
+          <TouchableOpacity
+            key={tab.key}
+            style={[
+              styles.tab,
+              isTablet && styles.tabTablet,
+              activeTab === tab.key && styles.activeTab,
+            ]}
+            onPress={() => onTabPress(tab.key)}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: activeTab === tab.key }}
+            accessibilityLabel={tab.label}
+          >
+            <Text
+              style={[
+                styles.tabText,
+                isTablet && styles.tabTextTablet,
+                activeTab === tab.key && styles.activeTabText,
+              ]}
+            >
+              {tab.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
         <Animated.View
           style={[
             styles.indicator,

@@ -25,6 +25,11 @@
       "thisDayHistory": "Este día en la historia",
       "questionOfDay": "Pregunta del día",
       "interestingPeople": "Gente interesante"
+    },
+    "tabs": {
+      "categories": "Categorías",
+      "news": "Noticias",
+      "newsStub": "Aquí aparecerán las noticias"
     }
   },
   "profile": {

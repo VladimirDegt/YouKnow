@@ -1,13 +1,14 @@
-import {router} from 'expo-router';
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from 'react-native';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
-import {COLORS} from '@/src/constants/colors';
-import {contentService} from '@/src/services/api';
-import {useContentStore} from '@/src/store/contentStore';
+import { COLORS } from '@/src/constants/colors';
+import { contentService } from '@/src/services/api';
+import { useContentStore } from '@/src/store/contentStore';
 import onboardingUtils from '../utils/onboarding';
 
+import TabSelector from '@/src/components/profile/TabSelector';
 import Loader from '@/src/components/shared/Loader';
 
 const fanFactImg = require('@/src/assets/images/fanFact.png');
@@ -29,6 +30,7 @@ const categories = [
 const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [loadingButtonId, setLoadingButtonId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState('categories');
   const setContent = useContentStore((state) => state.setContent);
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
@@ -79,51 +81,63 @@ const HomeScreen = () => {
     }
   };
 
+  const renderContent = () => {
+    if (activeTab === 'categories') {
+      return (
+        <FlatList
+          contentContainerStyle={[styles.blockBtn, isTablet && styles.blockBtnTablet]}
+          data={categories}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={numColumns}
+          columnWrapperStyle={isTablet ? { gap } : styles.row}
+          renderItem={({ item, index }) => (
+            <View
+              style={[
+                styles.gridItem,
+                isTablet && { width: itemWidth },
+                isTablet && styles.gridItemTablet,
+              ]}
+            >
+              <TouchableOpacity
+                style={[styles.btn, isTablet && styles.btnTablet]}
+                onPress={() => handleButtonPress(item.id, item.route)}
+                disabled={loading}
+              >
+                <View style={styles.buttonContent}>
+                  {loadingButtonId === item.id && <Loader />}
+                  <Image
+                    source={item.img}
+                    style={[styles.logo, isTablet && styles.logoTablet]}
+                    resizeMode="cover"
+                  />
+                  <Text style={[styles.textBtn, isTablet && styles.textBtnTablet]} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      );
+    }
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: isTablet ? 24 : 18, color: COLORS.text_black, textAlign: 'center' }}>
+          {t('home.tabs.newsStub')}
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <FlatList
-        contentContainerStyle={[styles.blockBtn, isTablet && styles.blockBtnTablet]}
-        data={categories}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={numColumns}
-        columnWrapperStyle={isTablet ? { gap } : styles.row}
-        ListHeaderComponent={<Text style={[styles.headerText, isTablet && styles.headerTextTablet]}>{t('home.chooseCategory')}</Text>}
-        // ListFooterComponent={
-        //   __DEV__ ? (
-        //     <TouchableOpacity
-        //       style={styles.resetButton}
-        //       onPress={handleResetOnboarding}
-        //     >
-        //       <Text style={styles.resetButtonText}>Сбросить онбординг</Text>
-        //     </TouchableOpacity>
-        //   ) : null
-        // }
-        renderItem={({ item, index }) => (
-          <View
-            style={[
-              styles.gridItem,
-              isTablet && { width: itemWidth },
-              isTablet && styles.gridItemTablet,
-            ]}
-          >
-            <TouchableOpacity
-              style={[styles.btn, isTablet && styles.btnTablet]}
-              onPress={() => handleButtonPress(item.id, item.route)}
-              disabled={loading}
-            >
-              <View style={styles.buttonContent}>
-                {loadingButtonId === item.id && <Loader />}
-                <Image
-                  source={item.img}
-                  style={[styles.logo, isTablet && styles.logoTablet]}
-                  resizeMode="cover"
-                />
-                <Text style={[styles.textBtn, isTablet && styles.textBtnTablet]} numberOfLines={2}>{t(`home.categories.${item.name}`)}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
+      <TabSelector
+        activeTab={activeTab}
+        onTabPress={setActiveTab}
+        tabs={[
+          { key: 'categories', label: t('home.tabs.categories') },
+          { key: 'news', label: t('home.tabs.news') },
+        ]}
       />
+      {renderContent()}
     </View>
   );
 };

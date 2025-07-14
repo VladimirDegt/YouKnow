@@ -25,6 +25,11 @@
       "thisDayHistory": "Цей день в історії",
       "questionOfDay": "Питання дня",
       "interestingPeople": "Цікаві люди"
+    },
+    "tabs": {
+      "categories": "Категорії",
+      "news": "Новини",
+      "newsStub": "Тут будуть новини"
     }
   },
   "profile": {
