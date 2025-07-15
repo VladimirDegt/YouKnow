@@ -95,5 +95,6 @@
       "next": "Next",
       "start": "Start"
     }
-  }
+  },
+  "news": { "noImage": "No image available" }
 }

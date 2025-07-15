@@ -1,5 +1,5 @@
-import axios, {isAxiosError} from 'axios';
-import {t} from 'i18next';
+import axios, { isAxiosError } from 'axios';
+import { t } from 'i18next';
 
 const API_URL = process.env.EXPO_PUBLIC_URL_SERVER;
 
@@ -15,6 +15,26 @@ export interface SupportMessage {
 export interface SupportResponse {
   success: boolean;
   message: string;
+}
+
+export interface NewsSource {
+  title: string;
+  link: string;
+  image: string;
+}
+
+export interface NewsItem {
+  title: string;
+  description: string;
+  link: string;
+  pubDate: string;
+  img: string;
+  content: string;
+}
+
+export interface NewsResponse {
+  source: NewsSource;
+  items: NewsItem[];
 }
 
 export const contentService = {
@@ -70,3 +90,31 @@ export const contentService = {
     }
   }
 };
+
+const getNews = async (lang: string): Promise<NewsResponse> => {
+  try {
+    const response = await axios.post<NewsResponse>(`${API_URL}/rss`, { lang });
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.response) {
+        switch (error.response.status) {
+          case 404:
+            throw new Error(t('common.errors.contentNotFound'));
+          case 500:
+            throw new Error(t('common.errors.serverError'));
+          default:
+            throw new Error(t('common.errors.serverErrorWithStatus', { status: error.response.status }));
+        }
+      } else if (error.request) {
+        throw new Error(t('common.errors.noResponse'));
+      } else {
+        throw new Error(t('common.errors.requestError'));
+      }
+    }
+    throw new Error(t('common.errors.unknownError'));
+  }
+};
+
+export { getNews };
+
