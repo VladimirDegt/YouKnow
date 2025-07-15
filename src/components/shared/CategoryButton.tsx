@@ -12,12 +12,12 @@ interface CategoryButtonProps {
 }
 
 export const CategoryButton = ({
-  item,
-  onPress,
-  isLoading,
-  loadingButtonId,
-  t
-}: CategoryButtonProps) => (
+                                 item,
+                                 onPress,
+                                 isLoading,
+                                 loadingButtonId,
+                                 t
+                               }: CategoryButtonProps) => (
   <View style={styles.gridItem}>
     <TouchableOpacity
       style={styles.btn}

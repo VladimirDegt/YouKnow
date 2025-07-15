@@ -17,12 +17,12 @@ const dayQuestionImg = require('@/src/assets/images/day_question.png');
 const interestingPeopleImg = require('@/src/assets/images/interesting_people.png');
 
 const categories = [
-  { id: 1, name: "funFact", route: 'fanFact', img: fanFactImg },
-  { id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg },
-  { id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg },
-  { id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg },
-  { id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg },
-  { id: 6, name: "interestingPeople", route: 'interestingPeople', img: interestingPeopleImg },
+  {id: 1, name: "funFact", route: 'fanFact', img: fanFactImg},
+  {id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg},
+  {id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg},
+  {id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg},
+  {id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg},
+  {id: 6, name: "interestingPeople", route: 'interestingPeople', img: interestingPeopleImg},
 ];
 
 const HomeScreen = () => {
@@ -35,20 +35,23 @@ const HomeScreen = () => {
   const itemWidth = isTablet
     ? (width - horizontalPadding - gap * (numColumns - 1)) / numColumns
     : '48%';
-  const { t } = useTranslation();
 
+  const { t } = useTranslation();
   // const handleResetOnboarding = async () => {
   //   try {
   //     await onboardingUtils.resetOnboarding();
   //     Alert.alert(
   //       t('common.success'),
   //       'Онбординг успешно сброшен',
+
   //       [{ text: t('common.ok'), style: 'default' }]
+
   //     );
   //   } catch (error) {
   //     Alert.alert(
   //       t('common.errorTitle'),
   //       'Ошибка при сбросе онбординга',
+
   //       [{ text: t('common.ok'), style: 'default' }]
   //     );
   //   }
