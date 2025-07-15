@@ -72,8 +72,11 @@
     },
     "about": {
       "title": "Acerca de la aplicación",
-      "aiInfo": "Todo el contenido de esta aplicación es generado por inteligencia artificial para su comodidad e interés.",
-      "version": "Versión de la aplicación: {{version}}"
+      "aiInfo": "La mayor parte del contenido de esta aplicación (hechos, citas, preguntas, etc.) es generado por inteligencia artificial para su comodidad e interés. La sección de Noticias muestra información obtenida de fuentes públicas RSS de sitios web de noticias, indicando claramente la fuente de cada noticia. La aplicación no reclama la propiedad del contenido de noticias y lo proporciona únicamente con fines informativos.",
+      "version": "Versión de la aplicación: {{version}}",
+      "rateApp": "Calificar la aplicación",
+      "reviewUnavailableTitle": "Reseña no disponible",
+      "reviewUnavailableMsg": "La función de reseña no está disponible en su dispositivo."
     }
   },
   "onboarding": {

@@ -1,6 +1,7 @@
 import Loader from '@/src/components/shared/Loader';
 import { COLORS } from '@/src/constants/colors';
 import { getNews, NewsItem, NewsResponse } from '@/src/services/api';
+import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
@@ -39,7 +40,23 @@ const NewsTab = () => {
           resizeMode="cover"
         />
       ) : (
-        <View style={[styles.newsImage, isTablet && styles.newsImageTablet, styles.noImageContainer]}>
+        <View
+          style={[
+            styles.newsImage,
+            isTablet && styles.newsImageTablet,
+            styles.noImageContainer,
+          ]}
+          accessible
+          accessibilityLabel={t('news.noImage')}
+          importantForAccessibility="yes"
+        >
+          <MaterialIcons
+            name="image-not-supported"
+            size={isTablet ? 48 : 32}
+            color={COLORS.text_gray}
+            accessibilityLabel={t('news.noImage')}
+            style={{ marginBottom: 4 }}
+          />
           <Text style={styles.noImageText}>{t('news.noImage')}</Text>
         </View>
       )}
