@@ -6,23 +6,23 @@ import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, Te
 
 const SupportTab = () => {
   const {t} = useTranslation();
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
   const isTablet = width >= 768;
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  
   const handleSubmit = async () => {
     if (!email || !message) {
       Alert.alert(t('profile.support.error.title'), t('profile.support.error.emptyFields'));
       return;
     }
-
+    
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       Alert.alert(t('profile.support.error.title'), t('profile.support.error.invalidEmail'));
       return;
     }
-
+    
     try {
       setIsSubmitting(true);
       await contentService.sendSupportMessage({email, message});
@@ -37,7 +37,7 @@ const SupportTab = () => {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}

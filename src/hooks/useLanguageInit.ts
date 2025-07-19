@@ -1,6 +1,6 @@
 import i18next from '@/services/i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 
 const LANGUAGE_STORAGE_KEY = '@app_language';
 
@@ -19,4 +19,4 @@ export const useLanguageInit = () => {
 
     loadSavedLanguage();
   }, []);
-}; 
+};

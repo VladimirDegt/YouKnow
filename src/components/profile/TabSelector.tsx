@@ -13,12 +13,12 @@ const TabSelector = ({ tabs, activeTab, onTabPress }: TabSelectorProps) => {
   const isTablet = width >= 768;
   const indicatorPosition = useRef(new Animated.Value(0)).current;
   const [tabWidth, setTabWidth] = useState(0);
-
+  
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
     setTabWidth(width / tabs.length);
   };
-
+  
   useEffect(() => {
     if (tabWidth > 0) {
       const activeIndex = tabs.findIndex(tab => tab.key === activeTab);
@@ -35,7 +35,7 @@ const TabSelector = ({ tabs, activeTab, onTabPress }: TabSelectorProps) => {
     inputRange: tabs.map((_, i) => i),
     outputRange: tabs.map((_, i) => i * tabWidth),
   });
-
+  
   return (
     <View style={[styles.tabsContainer, isTablet && styles.tabsContainerTablet]}>
       <View style={styles.tabsWrapper} onLayout={handleLayout}>
@@ -68,7 +68,7 @@ const TabSelector = ({ tabs, activeTab, onTabPress }: TabSelectorProps) => {
             styles.indicator,
             isTablet && styles.indicatorTablet,
             {
-              transform: [{ translateX }],
+              transform: [{translateX}],
               width: tabWidth,
             },
           ]}

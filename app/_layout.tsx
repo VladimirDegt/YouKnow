@@ -11,7 +11,7 @@ export default function RootLayout() {
   const isFirstLaunch = useOnboarding();
   const router = useRouter();
   useLanguageInit();
-
+  
   useEffect(() => {
     if (isFirstLaunch === true) {
       router.replace('/onboarding');
@@ -22,9 +22,12 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <StatusBar style={'dark'} />
       <Header />
-      <Stack screenOptions={{headerShown: false}} >
-        <Stack.Screen name='(tabs)'/>
-        <Stack.Screen name='onboarding' options={{ headerShown: false }} />
+      <Stack screenOptions={{headerShown: false}}>
+        <Stack.Screen name='(tabs)' />
+        <Stack.Screen
+          name='onboarding'
+          options={{headerShown: false}}
+        />
       </Stack>
     </SafeAreaProvider>
   );

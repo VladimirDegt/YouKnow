@@ -7,10 +7,12 @@ const Header: React.FC = () => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[
-      styles.container,
-      { paddingTop: insets.top }
-    ]}>
+    <View
+      style={[
+        styles.container,
+        {paddingTop: insets.top}
+      ]}
+    >
       <View style={styles.logoContainer}>
         <Image
           source={require('../../assets/images/logo.png')}

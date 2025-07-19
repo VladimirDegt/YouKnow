@@ -6,7 +6,6 @@ This repository contains both the **frontend** (React Native + Expo) and **backe
 ---
 
 ## Table of Contents
-
 - [Project Overview](#project-overview)
 - [Tech Stack](#tech-stack)
 - [Monorepo Structure](#monorepo-structure)
@@ -27,7 +26,7 @@ This repository contains both the **frontend** (React Native + Expo) and **backe
 
 ## Project Overview
 
-**YouKnow / Iwonder** is a mobile and web application that provides users with various categories of content:
+**Iwonder** is a mobile and web application that provides users with various categories of content:
 
 - Fun facts
 - Science facts
@@ -184,6 +183,7 @@ backend/
 
 2. **Environment variables:**  
    Create a `.env` file in the root of `backend/` and add required variables (see code/config).
+
 
 3. **Start the server:**
 

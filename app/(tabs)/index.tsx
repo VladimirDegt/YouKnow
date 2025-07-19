@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
 
+
 import { COLORS } from '@/src/constants/colors';
 // import onboardingUtils from '../utils/onboarding';
-
 import CategoriesTab from '@/src/components/home/CategoriesTab';
 import NewsTab from '@/src/components/home/NewsTab';
 import TabSelector from '@/src/components/profile/TabSelector';
@@ -17,12 +17,12 @@ const dayQuestionImg = require('@/src/assets/images/day_question.png');
 const interestingPeopleImg = require('@/src/assets/images/interesting_people.png');
 
 const categories = [
-  { id: 1, name: "funFact", route: 'fanFact', img: fanFactImg },
-  { id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg },
-  { id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg },
-  { id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg },
-  { id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg },
-  { id: 6, name: "interestingPeople", route: 'interestingPeople', img: interestingPeopleImg },
+  {id: 1, name: "funFact", route: 'fanFact', img: fanFactImg},
+  {id: 2, name: "scienceFact", route: 'scienceFact', img: scienceFactImg},
+  {id: 3, name: "quoteOfDay", route: 'dayQuote', img: dayQuoteImg},
+  {id: 4, name: "thisDayHistory", route: 'dayEvent', img: dayEventImg},
+  {id: 5, name: "questionOfDay", route: 'dayQuestion', img: dayQuestionImg},
+  {id: 6, name: "interestingPeople", route: 'interestingPeople', img: interestingPeopleImg},
 ];
 
 const HomeScreen = () => {
