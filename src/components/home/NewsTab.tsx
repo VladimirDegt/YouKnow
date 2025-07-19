@@ -13,6 +13,7 @@ const NewsTab = () => {
   const [news, setNews] = useState<NewsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -33,11 +34,12 @@ const NewsTab = () => {
       onPress={() => handleOpenLink(item.link)}
       accessible accessibilityLabel={item.title}
     >
-      {item.img ? (
+      {item.img && !imageError ? (
         <Image
           source={{ uri: item.img }}
           style={[styles.newsImage, isTablet && styles.newsImageTablet]}
           resizeMode="cover"
+          onError={() => setImageError(true)}
         />
       ) : (
         <View
@@ -255,4 +257,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsTab; 
+export default NewsTab;
